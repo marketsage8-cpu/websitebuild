@@ -16,12 +16,12 @@
 /* ===== RESET & VARIABLES ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-    --bg-page:#F5F0EB;--bg-card:rgba(255,255,255,0.7);--bg-dark:#E8E2DB;--bg-black:#DDD7D0;
+    --bg-page:#1a1a2e;--bg-card:rgba(255,255,255,0.06);--bg-dark:#151528;--bg-black:#0e0e1a;
     --purple:#7C3AED;--blue:#3B82F6;--gradient:linear-gradient(135deg,#7C3AED,#3B82F6);
-    --text-dark:#1a1a1a;--text-med:#6b7280;--text-light:#9ca3af;
+    --text-dark:#E8E6F0;--text-med:#9896A8;--text-light:#6E6C80;
     --radius:24px;--radius-sm:16px;--radius-xs:12px;
-    --shadow:0 4px 24px rgba(0,0,0,0.06);--shadow-hover:0 12px 48px rgba(124,58,237,0.12);
-    --glass-border:rgba(0,0,0,0.06);
+    --shadow:0 4px 24px rgba(0,0,0,0.2);--shadow-hover:0 12px 48px rgba(124,58,237,0.15);
+    --glass-border:rgba(255,255,255,0.08);
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-page);color:var(--text-dark);line-height:1.6;overflow-x:hidden;cursor:none;transition:background-color 0.8s ease}
@@ -52,7 +52,7 @@ img,svg{max-width:100%;display:block}
 .card:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover);border-color:rgba(124,58,237,0.2)}
 .card-dark{background:var(--bg-dark);color:var(--text-dark);border-color:var(--glass-border)}
 .card-dark .text-s{color:var(--text-med)}
-.card-black{background:#2a2438;color:#fff;border-color:rgba(255,255,255,0.08)}
+.card-black{background:#12101e;color:#fff;border-color:rgba(255,255,255,0.08)}
 .card-black .text-s{color:rgba(255,255,255,0.6)}
 .card-gradient{background:var(--gradient);color:#fff;border-color:transparent}
 .card-gradient .text-s{color:rgba(255,255,255,0.8)}
@@ -62,13 +62,13 @@ img,svg{max-width:100%;display:block}
 @media(max-width:768px){.btn{cursor:auto}}
 .btn-primary{background:var(--gradient);color:#fff}
 .btn-primary:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(124,58,237,0.4)}
-.btn-secondary{border:2px solid rgba(0,0,0,0.12);color:var(--text-dark);background:transparent}
+.btn-secondary{border:2px solid rgba(255,255,255,0.12);color:var(--text-dark);background:transparent}
 .btn-secondary:hover{border-color:var(--purple);color:var(--purple)}
 .btn-white{background:#fff;color:var(--purple);font-weight:700;padding:18px 40px}
 .btn-white:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
 
 /* ===== BADGE ===== */
-.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);border:1px solid var(--glass-border);padding:8px 20px;border-radius:100px;font-size:14px;font-weight:600;color:var(--text-dark);box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);border:1px solid var(--glass-border);padding:8px 20px;border-radius:100px;font-size:14px;font-weight:600;color:var(--text-dark);box-shadow:var(--shadow)}
 
 /* ===== SECTION HEADERS ===== */
 .sh{text-align:center;margin-bottom:48px}
@@ -98,7 +98,7 @@ img,svg{max-width:100%;display:block}
 
 /* ===== NAV ===== */
 .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;transition:all 0.3s}
-.nav.scrolled{background:rgba(245,240,235,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(0,0,0,0.06)}
+.nav.scrolled{background:rgba(26,26,46,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(255,255,255,0.04)}
 .nav-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 24px;width:100%}
 .nav-logo{font-size:18px;font-weight:700;color:var(--text-dark)}.nav-logo .dot{color:var(--purple)}
 .nav-links{display:flex;align-items:center;gap:28px}
@@ -107,7 +107,7 @@ img,svg{max-width:100%;display:block}
 .nav-cta:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(124,58,237,0.3)}
 .nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px}
 .nav-toggle span{display:block;width:22px;height:2px;background:var(--text-dark);transition:all 0.3s}
-.nav-mob{display:none;position:fixed;inset:0;background:rgba(245,240,235,0.97);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.nav-mob{display:none;position:fixed;inset:0;background:rgba(26,26,46,0.97);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
 .nav-mob.open{display:flex}
 .nav-mob a{font-size:24px;font-weight:600;color:var(--text-dark)}
 
@@ -151,11 +151,11 @@ img,svg{max-width:100%;display:block}
 .ms div{height:30px;border-radius:4px;background:rgba(255,255,255,0.02);margin-bottom:6px}
 
 /* Float badges hero */
-.float-badge{position:absolute;z-index:2;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text-dark);box-shadow:var(--shadow);animation:float 4s ease-in-out infinite;white-space:nowrap}
+.float-badge{position:absolute;z-index:2;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text-dark);box-shadow:var(--shadow);animation:float 4s ease-in-out infinite;white-space:nowrap}
 
 /* ===== STATS ===== */
 .stats-row{display:flex;text-align:center}
-.stats-row .st{flex:1;padding:20px;border-right:1px solid rgba(0,0,0,0.06)}
+.stats-row .st{flex:1;padding:20px;border-right:1px solid rgba(255,255,255,0.06)}
 .stats-row .st:last-child{border-right:none}
 .st-num{font-size:clamp(36px,5vw,52px);font-weight:900;line-height:1.2}
 .st-label{font-size:14px;color:var(--text-med);margin-top:2px}
@@ -192,8 +192,8 @@ img,svg{max-width:100%;display:block}
 .svc{padding:32px;border-radius:var(--radius)}
 .svc-icon{font-size:44px;margin-bottom:14px}
 .svc h3{font-size:18px;font-weight:700;margin-bottom:6px}
-.svc-dark{background:var(--bg-dark);color:var(--text-dark);border:1px solid var(--glass-border)}.svc-dark p{color:var(--text-med)}
-.svc-white{background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border:1px solid var(--glass-border);color:var(--text-dark)}.svc-white p{color:var(--text-med)}.svc-white h3{color:var(--text-dark)}
+.svc-dark{background:rgba(255,255,255,0.04);color:var(--text-dark);border:1px solid var(--glass-border)}.svc-dark p{color:var(--text-med)}
+.svc-white{background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid var(--glass-border);color:var(--text-dark)}.svc-white p{color:var(--text-med)}.svc-white h3{color:var(--text-dark)}
 .svc-grad{background:var(--gradient);color:#fff;border:1px solid transparent}.svc-grad p{color:rgba(255,255,255,0.85)}
 .svc{transition:all 0.4s cubic-bezier(0.16,1,0.3,1)}.svc:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover);border-color:rgba(124,58,237,0.2)}
 
@@ -234,7 +234,7 @@ img,svg{max-width:100%;display:block}
 .cmp.featured{border:2px solid var(--purple);box-shadow:0 0 40px rgba(124,58,237,0.1);transform:scale(1.03);position:relative;z-index:1;background:rgba(124,58,237,0.04)}
 .cmp-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gradient);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
 .cmp-name{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--text-dark)}
-.cmp-row{padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);font-size:13px;color:var(--text-med)}
+.cmp-row{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;color:var(--text-med)}
 .cmp-row:last-child{border-bottom:none}
 .cmp-row strong{display:block;font-size:15px;color:var(--text-dark);margin-bottom:1px}
 .cmp.card-dark .cmp-row{border-color:rgba(255,255,255,0.08)}
@@ -273,7 +273,7 @@ img,svg{max-width:100%;display:block}
 
 /* ===== FAQ ===== */
 .faq-list{max-width:700px;margin:0 auto}
-.faq-item{border-bottom:1px solid rgba(0,0,0,0.06)}
+.faq-item{border-bottom:1px solid rgba(255,255,255,0.06)}
 .faq-q{width:100%;text-align:left;padding:20px 0;font-size:16px;font-weight:600;color:var(--text-dark);display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:none}
 @media(max-width:768px){.faq-q{cursor:auto}}
 .faq-icon{font-size:18px;color:var(--purple);transition:transform 0.3s;flex-shrink:0}
@@ -299,15 +299,15 @@ img,svg{max-width:100%;display:block}
 .cta-email a{color:#fff;font-weight:600}
 
 /* ===== FOOTER ===== */
-.footer{padding:48px 0 24px;border-top:1px solid rgba(0,0,0,0.06)}
+.footer{padding:48px 0 24px;border-top:1px solid rgba(255,255,255,0.06)}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:32px}
 .footer-brand p{font-size:13px;color:var(--text-light);margin-top:6px;line-height:1.6}
 .footer-social{display:flex;gap:10px;margin-top:12px}
-.footer-social a{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.3s}
+.footer-social a{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all 0.3s}
 .footer-social a:hover{border-color:var(--purple);background:rgba(124,58,237,0.08)}
 .footer-col h4{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text-dark)}
 .footer-col a{display:block;font-size:13px;color:var(--text-light);padding:3px 0;transition:color 0.2s}.footer-col a:hover{color:var(--text-dark)}
-.footer-bottom{border-top:1px solid rgba(0,0,0,0.06);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--text-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--text-light)}
 .footer-legal{display:flex;gap:20px}.footer-legal a{color:var(--text-light);transition:color 0.2s}.footer-legal a:hover{color:var(--text-dark)}
 
 /* ===== RESPONSIVE ===== */
@@ -320,7 +320,7 @@ img,svg{max-width:100%;display:block}
     .nav-links{display:none}.nav-toggle{display:flex}
     .hero h1{font-size:clamp(36px,8vw,52px)}
     .hero-bento{grid-template-columns:1fr;grid-template-rows:auto}
-    .stats-row{flex-wrap:wrap}.stats-row .st{min-width:50%;border-right:none;border-bottom:1px solid rgba(0,0,0,0.06)}.stats-row .st:nth-child(3),.stats-row .st:nth-child(4){border-bottom:none}
+    .stats-row{flex-wrap:wrap}.stats-row .st{min-width:50%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06)}.stats-row .st:nth-child(3),.stats-row .st:nth-child(4){border-bottom:none}
     .process-grid{flex-direction:column}.process-card:nth-child(3){transform:none}
     .svc-grid{grid-template-columns:1fr}
     .cmp{min-width:100%}.cmp.featured{transform:none}
@@ -366,7 +366,7 @@ img,svg{max-width:100%;display:block}
 </nav>
 
 <!-- ===== HERO ===== -->
-<section class="hero" id="hero" data-bg="#F5F0EB">
+<section class="hero" id="hero" data-bg="#1a1a2e">
     <div class="hero-gradient" id="heroGrad"></div>
     <div class="particles" id="particles"></div>
     <div class="hero-content container">
@@ -409,7 +409,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== STATS ===== -->
-<section class="section-spacing" data-bg="#EDE8E3">
+<section class="section-spacing" data-bg="#161529">
     <div class="container">
         <div class="card anim anim-up" style="padding:48px 24px">
             <div class="stats-row">
@@ -423,7 +423,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== PROCESS ===== -->
-<section class="section-spacing" id="process" data-bg="#F0EBF5">
+<section class="section-spacing" id="process" data-bg="#1e1a35">
     <div class="container">
         <div class="sh">
             <h2 class="anim anim-blur">Simple comme <span class="gt">bonjour</span></h2>
@@ -441,7 +441,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== PORTFOLIO ===== -->
-<section class="section-spacing" id="portfolio" data-bg="#EBE6F0">
+<section class="section-spacing" id="portfolio" data-bg="#191530">
     <div class="container"><div class="sh"><h2 class="anim anim-blur">Nos dernières <span class="gt">réalisations</span></h2><p class="anim anim-up">Chaque site est unique, conçu sur-mesure pour le métier de nos clients.</p></div></div>
     <div class="carousel-wrap">
         <div class="carousel-track" id="carouselTrack">
@@ -462,7 +462,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== SERVICES ===== -->
-<section class="section-spacing" id="services" data-bg="#F5F0EB">
+<section class="section-spacing" id="services" data-bg="#1c1832">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pour tous les <span class="gt">professionnels</span></h2><p class="anim anim-up">Des sites pensés pour votre métier, avec les fonctionnalités qui comptent.</p></div>
         <div class="svc-grid">
@@ -477,7 +477,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== AVANT/APRÈS ===== -->
-<section class="section-spacing" data-bg="#E8E3DE">
+<section class="section-spacing" data-bg="#141220">
     <div class="container">
         <div class="ba-outer card-black anim anim-left">
             <div class="sh" style="margin-bottom:0"><h2 class="anim anim-blur">La différence <span class="gt">WebsiteBuild</span></h2></div>
@@ -506,7 +506,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== COMPARE ===== -->
-<section class="section-spacing" id="compare" data-bg="#EEEAF5">
+<section class="section-spacing" id="compare" data-bg="#1b162e">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pourquoi nous <span class="gt">choisir</span> ?</h2></div>
         <div class="cmp-grid">
@@ -519,7 +519,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== PRICING ===== -->
-<section class="section-spacing" id="pricing" data-bg="#F2EDF8">
+<section class="section-spacing" id="pricing" data-bg="#201a38">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Tarifs <span class="gt">transparents</span></h2><p class="anim anim-up">Pas de surprise, pas de frais cachés.</p></div>
         <div class="price-grid">
@@ -548,7 +548,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
-<section class="section-spacing" data-bg="#E8E3DE">
+<section class="section-spacing" data-bg="#141220">
     <div class="container">
         <div class="card-black anim anim-right" style="border-radius:var(--radius);padding:60px 40px">
             <div class="sh" style="margin-bottom:36px"><h2 class="anim anim-blur">Ce que disent nos <span class="gt">clients</span></h2></div>
@@ -562,7 +562,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section-spacing" id="faq" data-bg="#F5F0EB">
+<section class="section-spacing" id="faq" data-bg="#1a1a2e">
     <div class="container" style="max-width:800px">
         <div class="card anim anim-scale" style="padding:48px 40px">
             <div class="sh" style="margin-bottom:24px"><h2>Questions <span class="gt">fréquentes</span></h2></div>
@@ -579,7 +579,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== TEAM ===== -->
-<section class="section-spacing" id="team" data-bg="#F0EBF5">
+<section class="section-spacing" id="team" data-bg="#1e1a35">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">L'équipe derrière <span class="gt">WebsiteBuild</span></h2></div>
         <div class="team-grid">
@@ -591,7 +591,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="section-spacing" id="contact" data-bg="#EDE8E3">
+<section class="section-spacing" id="contact" data-bg="#161529">
     <div class="container">
         <div class="cta-final anim anim-scale">
             <h2>Prêt à lancer votre site ?</h2>
