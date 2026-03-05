@@ -34,9 +34,9 @@ img,svg{max-width:100%;display:block}
 .section-spacing{padding:80px 0}
 
 /* ===== CURSOR ===== */
-.cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,0.3);pointer-events:none;z-index:9999;transition:width 0.3s,height 0.3s,background 0.3s;transform:translate(-50%,-50%);will-change:transform}
-.cursor.hover{width:50px;height:50px;background:rgba(124,58,237,0.15)}
-@media(max-width:768px){.cursor{display:none}}
+.cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,0.3);pointer-events:none;z-index:9999;transition:width 0.3s ease,height 0.3s ease,opacity 0.3s ease;transform:translate(-50%,-50%);will-change:transform,width,height,opacity;opacity:0.3}
+.cursor.hover{width:50px;height:50px;opacity:0.15}
+@media(max-width:768px){.cursor{display:none!important}}
 
 /* ===== GRADIENT TEXT ===== */
 .gt{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -615,11 +615,27 @@ img,svg{max-width:100%;display:block}
 <script>
 /* ===== CUSTOM CURSOR ===== */
 const cursor=document.getElementById('cursor');
-let cx=0,cy=0,mx=0,my=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-function tickCursor(){cx+=(mx-cx)*0.15;cy+=(my-cy)*0.15;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(tickCursor)}
+let cx=-100,cy=-100,mx=-100,my=-100,cursorVisible=false;
+document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    if(!cursorVisible){cursorVisible=true;cursor.style.display='block'}
+});
+document.addEventListener('mouseleave',()=>{cursorVisible=false;cursor.style.display='none'});
+document.addEventListener('mouseenter',()=>{cursorVisible=true;cursor.style.display='block'});
+function tickCursor(){
+    cx+=(mx-cx)*0.15;
+    cy+=(my-cy)*0.15;
+    cursor.style.left=cx+'px';
+    cursor.style.top=cy+'px';
+    requestAnimationFrame(tickCursor);
+}
 tickCursor();
-document.querySelectorAll('a,button,.card,.svc,.cmp,.price,.hb-card,.c-card').forEach(el=>{
+/* Ajouter .hover-grow sur tous les éléments interactifs */
+document.querySelectorAll('a,button,.card,.svc,.cmp,.price,.hb-card,.c-card,.btn,.nav-logo,.nav-link,.faq-q,.team-card').forEach(el=>{
+    el.classList.add('hover-grow');
+});
+/* Écouter hover sur .hover-grow */
+document.querySelectorAll('.hover-grow').forEach(el=>{
     el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
     el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
 });
