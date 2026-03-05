@@ -16,7 +16,7 @@
 /* ===== RESET & VARIABLES ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-    --bg-page:#EEF2FF;--bg-card:rgba(255,255,255,0.06);--bg-dark:#151528;--bg-black:#0e0e1a;
+    --bg-page:#A5B4FC;--bg-card:rgba(255,255,255,0.06);--bg-dark:#151528;--bg-black:#0e0e1a;
     --purple:#7C3AED;--blue:#3B82F6;--gradient:linear-gradient(135deg,#7C3AED,#3B82F6);
     --text-dark:#1a1a1a;--text-med:#4a4a5a;--text-light:#6E6C80;
     --radius:24px;--radius-sm:16px;--radius-xs:12px;
@@ -36,30 +36,20 @@ img,svg{max-width:100%;display:block}
 
 /* ===== STICKY STACKING ===== */
 .stack-wrapper{position:relative}
-.stack-section{position:sticky;top:0;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -10px 40px rgba(0,0,0,0.1);transition:transform 0.5s ease,filter 0.5s ease;will-change:transform,filter;transform-origin:center top;overflow:visible}
-.stack-section:first-child{box-shadow:none}
-.stack-section:not(:first-child){border-top-left-radius:24px;border-top-right-radius:24px}
+.stack-section{display:flex;flex-direction:column;justify-content:center;transition:transform 0.5s ease,filter 0.5s ease;will-change:transform,filter;transform-origin:center top;position:relative}
 .stack-section.covered{transform:scale(0.95);filter:brightness(0.85)}
-@media(max-width:768px){.stack-section:not(:first-child){border-top-left-radius:16px;border-top-right-radius:16px}}
 
-/* ===== CURVED SECTION TRANSITIONS ===== */
-.stack-section{overflow:visible!important;position:relative;padding-bottom:40px}
-.stack-section::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:110%;height:70px;border-radius:0 0 50% 50% / 0 0 100% 100%;z-index:2;pointer-events:none}
+/* Sticky sections (odd: hero, and even sections that slide over + leave) */
+.stack-sticky{position:sticky;top:0;box-shadow:0 -10px 40px rgba(0,0,0,0.1)}
+.stack-sticky:first-child{box-shadow:none}
+.stack-sticky.leaving{transform:scale(0.95);filter:brightness(0.9)}
 
-/* Reveal sections (not sticky, revealed by previous leaving) */
-.stack-reveal{position:relative!important}
-.stack-reveal::after{display:none}
-
-/* Sticky leaving sections (stick then leave upward, revealing next) */
-.stack-leave{position:sticky;top:0;z-index:3;transition:transform 0.5s ease,filter 0.5s ease}
-.stack-leave.leaving{transform:scale(0.95);filter:brightness(0.9)}
-
-/* Normal stacking sections */
-.stack-normal{position:sticky;top:0}
+/* Static sections (revealed underneath when sticky section leaves) */
+.stack-static{position:relative}
 
 /* ===== SECTION COLORS ===== */
 /* Hero - dégradé violet pâle → bleu pâle */
-.sec-hero{background:linear-gradient(180deg,#E8DEFF 0%,#DBEAFE 100%)!important;color:#1a1a1a}
+.sec-hero{background:linear-gradient(160deg,#C4B5FD 0%,#A5B4FC 50%,#93C5FD 100%)!important;color:#1a1a1a}
 .sec-hero .badge{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.2);color:#7C3AED}
 .sec-hero h1{color:#1a1a1a}
 .sec-hero .hero-sub{color:#4a4a5a}
@@ -78,7 +68,6 @@ img,svg{max-width:100%;display:block}
 .hs-label{font-size:13px;color:#4a4a5a;margin-top:1px}
 .hs-sep{width:1px;height:28px;background:rgba(0,0,0,0.12)}
 @media(max-width:480px){.hero-stats{gap:8px}.hs{padding:0 12px}.hs-num{font-size:22px}.hs-sep{height:20px}}
-.sec-hero::after{background:#DBEAFE}
 
 /* Process - blanc */
 .sec-process{background:#FFFFFF!important;color:#1a1a1a}
@@ -87,14 +76,12 @@ img,svg{max-width:100%;display:block}
 .sec-process .card{background:#f8f8fc;border-color:rgba(0,0,0,0.08)}
 .sec-process .process-card h3{color:#1a1a1a}
 .sec-process .text-s{color:#4a4a5a}
-.sec-process::after{background:#FFFFFF}
 
 /* Portfolio - violet profond */
 .sec-portfolio{background:#4C1D95!important;color:#fff}
 .sec-portfolio .sh h2{color:#fff}
 .sec-portfolio .sh p{color:rgba(255,255,255,0.8)}
 .sec-portfolio .gt{background:linear-gradient(135deg,#C4B5FD,#A78BFA);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sec-portfolio::after{background:#4C1D95}
 
 /* Services - peche chaud */
 .sec-services{background:#FFF7ED!important;color:#1a1a1a}
@@ -107,14 +94,12 @@ img,svg{max-width:100%;display:block}
 .sec-services .svc-white h3{color:#1a1a1a}
 .sec-services .svc-white p{color:#4a4a5a}
 .sec-services .svc-grad{color:#fff}
-.sec-services::after{background:#FFF7ED}
 
 /* Avant/Apres - noir */
 .sec-ba{background:#0a0a0a!important;color:#fff}
 .sec-ba .sh h2{color:#fff}
 .sec-ba .card-black{background:#12101e}
 .sec-ba .ba-checks{color:rgba(255,255,255,0.7)}
-.sec-ba::after{background:#0a0a0a}
 
 /* Comparatif - bleu roi */
 .sec-compare{background:#1E40AF!important;color:#fff}
@@ -127,7 +112,6 @@ img,svg{max-width:100%;display:block}
 .sec-compare .cmp.featured{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.3)}
 .sec-compare .gt{background:linear-gradient(135deg,#93C5FD,#60A5FA);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .sec-compare .cmp-name.gt{-webkit-text-fill-color:#fff}
-.sec-compare::after{background:#1E40AF}
 
 /* Pricing - blanc */
 .sec-pricing{background:#FFFFFF!important;color:#1a1a1a}
@@ -144,7 +128,6 @@ img,svg{max-width:100%;display:block}
 .sec-pricing .card-gradient{color:#fff}
 .sec-pricing .card-gradient .price-name,.sec-pricing .card-gradient .price-amount{color:#fff}
 .sec-pricing > .container > p{color:#6E6C80!important}
-.sec-pricing::after{background:#FFFFFF}
 
 /* Temoignages - orange corail */
 .sec-testi{background:#FF6B35!important;color:#fff}
@@ -157,7 +140,6 @@ img,svg{max-width:100%;display:block}
 .sec-testi .testi-sep{background:rgba(255,255,255,0.2)}
 .sec-testi .testi-q{color:rgba(255,255,255,0.3)}
 .sec-testi .gt{background:linear-gradient(135deg,#fff,#FDE68A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sec-testi::after{background:#FF6B35}
 
 /* FAQ - jaune lime doux */
 .sec-faq{background:#F7FEE7!important;color:#1a1a1a}
@@ -166,7 +148,6 @@ img,svg{max-width:100%;display:block}
 .sec-faq .faq-q{color:#1a1a1a}
 .sec-faq .faq-a p{color:#4a4a5a}
 .sec-faq .faq-item{border-color:rgba(0,0,0,0.08)}
-.sec-faq::after{background:#F7FEE7}
 
 /* Equipe - blanc */
 .sec-team{background:#FFFFFF!important;color:#1a1a1a}
@@ -176,7 +157,6 @@ img,svg{max-width:100%;display:block}
 .sec-team .team-card .role{color:var(--purple)}
 .sec-team .team-card p{color:#4a4a5a}
 .sec-team .team-quote{color:#4a4a5a}
-.sec-team::after{background:#FFFFFF}
 
 /* CTA - violet vif style Wix */
 .sec-cta{background:#7C3AED!important;color:#fff}
@@ -188,7 +168,6 @@ img,svg{max-width:100%;display:block}
 .sec-cta .cta-final .btn:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
 .sec-cta .cta-email{color:rgba(255,255,255,0.7)}
 .sec-cta .cta-email a{color:#D9F99D;font-weight:600}
-.sec-cta::after{display:none}
 
 /* Footer */
 .footer-styled{background:#F9FAFB!important;color:#1a1a1a;border-top:none}
@@ -282,7 +261,7 @@ img,svg{max-width:100%;display:block}
 
 /* ===== HERO ===== */
 .hero{padding:120px 0 60px;min-height:100vh;position:relative;overflow:visible;text-align:center}
-.hero-gradient{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.3;transition:background 0.3s}
+.hero-gradient{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.15;transition:background 0.3s}
 .particles{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .particle{position:absolute;border-radius:50%;animation:particleFloat var(--dur) linear infinite;animation-delay:var(--del)}
 .hero-content{position:relative;z-index:1}
@@ -585,7 +564,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 <div class="stack-wrapper">
 
 <!-- ===== HERO ===== -->
-<section class="hero stack-section stack-normal sec-hero" id="hero" style="z-index:2;background:linear-gradient(180deg,#E8DEFF,#DBEAFE)">
+<section class="hero stack-section stack-sticky sec-hero" id="hero" style="z-index:1">
     <div class="hero-gradient" id="heroGrad"></div>
     <div class="particles" id="particles"></div>
     <div class="hero-content container">
@@ -640,7 +619,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== PROCESS ===== -->
-<section class="section-spacing stack-section stack-leave sec-process" id="process" style="z-index:4;background:#FFFFFF">
+<section class="section-spacing stack-section stack-sticky sec-process" id="process" style="z-index:10">
     <div class="container">
         <div class="sh">
             <h2 class="anim anim-blur">Simple comme <span class="gt">bonjour</span></h2>
@@ -659,7 +638,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== PORTFOLIO ===== -->
-<section class="section-spacing stack-section stack-reveal sec-portfolio" id="portfolio" style="z-index:3;background:#4C1D95">
+<section class="section-spacing stack-section stack-static sec-portfolio" id="portfolio" style="z-index:2">
     <div class="container"><div class="sh"><h2 class="anim anim-blur">Nos dernières <span class="gt">réalisations</span></h2><p class="anim anim-up">Chaque site est unique, conçu sur-mesure pour le métier de nos clients.</p></div></div>
     <div class="carousel-wrap">
         <div class="carousel-track" id="carouselTrack">
@@ -681,7 +660,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== SERVICES ===== -->
-<section class="section-spacing stack-section stack-leave sec-services" id="services" style="z-index:6;background:#FFF7ED">
+<section class="section-spacing stack-section stack-sticky sec-services" id="services" style="z-index:10">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pour tous les <span class="gt">professionnels</span></h2><p class="anim anim-up">Des sites pensés pour votre métier, avec les fonctionnalités qui comptent.</p></div>
         <div class="svc-grid">
@@ -697,7 +676,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== AVANT/APRÈS ===== -->
-<section class="section-spacing stack-section stack-reveal sec-ba" style="z-index:5;background:#0a0a0a">
+<section class="section-spacing stack-section stack-static sec-ba" style="z-index:2">
     <div class="container">
         <div class="ba-outer card-black anim anim-left">
             <div class="sh" style="margin-bottom:0"><h2 class="anim anim-blur">La différence <span class="gt">WebsiteBuild</span></h2></div>
@@ -727,7 +706,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== COMPARE ===== -->
-<section class="section-spacing stack-section stack-leave sec-compare" id="compare" style="z-index:8;background:#1E40AF">
+<section class="section-spacing stack-section stack-sticky sec-compare" id="compare" style="z-index:10">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pourquoi nous <span class="gt">choisir</span> ?</h2></div>
         <div class="cmp-grid">
@@ -741,7 +720,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== PRICING ===== -->
-<section class="section-spacing stack-section stack-reveal sec-pricing" id="pricing" style="z-index:7;background:#FFFFFF">
+<section class="section-spacing stack-section stack-static sec-pricing" id="pricing" style="z-index:2">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Tarifs <span class="gt">transparents</span></h2><p class="anim anim-up">Pas de surprise, pas de frais cachés.</p></div>
         <div class="price-grid">
@@ -771,7 +750,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
-<section class="section-spacing stack-section stack-leave sec-testi" style="z-index:10;background:#FF6B35">
+<section class="section-spacing stack-section stack-sticky sec-testi" style="z-index:10">
     <div class="container">
         <div class="sh" style="margin-bottom:36px"><h2 class="anim anim-blur">Ce que disent nos <span class="gt">clients</span></h2></div>
         <div class="testi-grid">
@@ -784,7 +763,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section-spacing stack-section stack-reveal sec-faq" id="faq" style="z-index:9;background:#F7FEE7">
+<section class="section-spacing stack-section stack-static sec-faq" id="faq" style="z-index:2">
     <div class="container" style="max-width:800px">
         <div class="card anim anim-scale" style="padding:48px 40px">
             <div class="sh" style="margin-bottom:24px"><h2>Questions <span class="gt">fréquentes</span></h2></div>
@@ -802,7 +781,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== TEAM ===== -->
-<section class="section-spacing stack-section stack-leave sec-team" id="team" style="z-index:12;background:#FFFFFF">
+<section class="section-spacing stack-section stack-sticky sec-team" id="team" style="z-index:10">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">L'équipe derrière <span class="gt">WebsiteBuild</span></h2></div>
         <div class="team-grid">
@@ -815,7 +794,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="section-spacing stack-section stack-reveal sec-cta" id="contact" style="z-index:11;background:#7C3AED">
+<section class="section-spacing stack-section stack-static sec-cta" id="contact" style="z-index:2">
     <div class="container">
         <div class="cta-final anim anim-scale">
             <h2>L'avenir de votre site commence ici.</h2>
@@ -1181,12 +1160,12 @@ if(window.innerWidth>768){
 
 /* ===== STICKY STACKING + LEAVE EFFECT ===== */
 const stackSections=document.querySelectorAll('.stack-section');
-/* Normal stacking cover effect */
+/* Cover effect: when a sticky section scrolls over the previous one */
 const stackObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
         const idx=Array.from(stackSections).indexOf(e.target);
         const prev=idx>0?stackSections[idx-1]:null;
-        if(e.isIntersecting&&e.intersectionRatio>0.1&&prev&&!prev.classList.contains('stack-leave')){
+        if(e.isIntersecting&&e.intersectionRatio>0.1&&prev&&prev.classList.contains('stack-sticky')){
             prev.classList.add('covered');
         }
         if(!e.isIntersecting&&prev){
@@ -1196,9 +1175,9 @@ const stackObs=new IntersectionObserver(entries=>{
 },{threshold:[0,0.1,0.25,0.5,0.75,1]});
 stackSections.forEach(s=>stackObs.observe(s));
 
-/* Leave effect for stack-leave sections */
+/* Leave effect: sticky sections shrink as they scroll out, revealing static section below */
 function checkLeaving(){
-    document.querySelectorAll('.stack-leave').forEach(sec=>{
+    document.querySelectorAll('.stack-sticky').forEach(sec=>{
         const r=sec.getBoundingClientRect();
         const ratio=r.bottom/window.innerHeight;
         if(ratio<0.7&&ratio>0){
