@@ -16,7 +16,7 @@
 /* ===== RESET & VARIABLES ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-    --bg-page:#F5F3FF;--bg-card:rgba(255,255,255,0.06);--bg-dark:#151528;--bg-black:#0e0e1a;
+    --bg-page:#EEF2FF;--bg-card:rgba(255,255,255,0.06);--bg-dark:#151528;--bg-black:#0e0e1a;
     --purple:#7C3AED;--blue:#3B82F6;--gradient:linear-gradient(135deg,#7C3AED,#3B82F6);
     --text-dark:#1a1a1a;--text-med:#4a4a5a;--text-light:#6E6C80;
     --radius:24px;--radius-sm:16px;--radius-xs:12px;
@@ -32,26 +32,36 @@ button{font-family:inherit;cursor:none;border:none;background:none}
 ul{list-style:none}
 img,svg{max-width:100%;display:block}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section-spacing{padding:80px 0}
+.section-spacing{padding:60px 0}
 
 /* ===== STICKY STACKING ===== */
 .stack-wrapper{position:relative}
-.stack-section{position:sticky;top:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -10px 40px rgba(0,0,0,0.1);transition:transform 0.5s ease,filter 0.5s ease;will-change:transform,filter;transform-origin:center top;overflow:visible}
+.stack-section{position:sticky;top:0;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -10px 40px rgba(0,0,0,0.1);transition:transform 0.5s ease,filter 0.5s ease;will-change:transform,filter;transform-origin:center top;overflow:visible}
 .stack-section:first-child{box-shadow:none}
 .stack-section:not(:first-child){border-top-left-radius:24px;border-top-right-radius:24px}
 .stack-section.covered{transform:scale(0.95);filter:brightness(0.85)}
 @media(max-width:768px){.stack-section:not(:first-child){border-top-left-radius:16px;border-top-right-radius:16px}}
 
 /* ===== CURVED TRANSITIONS ===== */
-.stack-section{position:sticky;top:0;overflow:visible!important;padding-bottom:80px}
-.stack-section::after{content:'';position:absolute;bottom:-60px;left:0;width:100%;height:60px;background:inherit;z-index:2;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
-.stack-section:nth-child(odd)::after{border-radius:0 0 50% 50%}
-.stack-section:nth-child(even)::after{border-radius:0 0 50% 50%}
+.stack-section{overflow:visible!important;padding-bottom:60px;position:relative}
+.stack-section::after{content:'';position:absolute;bottom:-50px;left:0;width:100%;height:50px;background:inherit;z-index:2;box-shadow:0 10px 30px rgba(0,0,0,0.08);border-radius:0 0 50% 50%}
 .stack-section:last-child::after{display:none}
 
+/* Reveal sections (not sticky, revealed by previous leaving) */
+.stack-reveal{position:relative!important;z-index:1!important}
+.stack-reveal::after{display:none}
+
+/* Sticky leaving sections (stick then leave upward, revealing next) */
+.stack-leave{position:sticky;top:0;z-index:3;transition:transform 0.5s ease,filter 0.5s ease}
+.stack-leave.leaving{transform:scale(0.95);filter:brightness(0.9)}
+.stack-leave::after{border-radius:0 0 50% 50%}
+
+/* Normal stacking sections */
+.stack-normal{position:sticky;top:0}
+
 /* ===== SECTION COLORS ===== */
-/* Hero - lavande pale */
-.sec-hero{background:#F5F3FF!important;color:#1a1a1a}
+/* Hero - bleu très pâle */
+.sec-hero{background:#EEF2FF!important;color:#1a1a1a}
 .sec-hero .badge{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.2);color:#7C3AED}
 .sec-hero h1{color:#1a1a1a}
 .sec-hero .hero-sub{color:#4a4a5a}
@@ -62,14 +72,15 @@ img,svg{max-width:100%;display:block}
 .sec-hero .card{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
 .sec-hero .hb-card{color:#fff}
 .sec-hero .nav-logo,.sec-hero .text-dark{color:#1a1a1a}
-.sec-hero::after{background:#F5F3FF}
 
-/* Stats - vert menthe */
-.sec-stats{background:#ECFDF5!important;color:#1a1a1a}
-.sec-stats .card{background:#fff;border-color:rgba(0,0,0,0.08);box-shadow:0 4px 24px rgba(0,0,0,0.06)}
-.sec-stats .st-num{-webkit-text-fill-color:#1a1a1a;background:linear-gradient(135deg,#059669,#10B981);-webkit-background-clip:text;background-clip:text}
-.sec-stats .st-label{color:#4a4a5a}
-.sec-stats::after{background:#ECFDF5}
+/* Hero inline stats */
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:0;margin-top:28px;flex-wrap:wrap}
+.hs{display:flex;flex-direction:column;align-items:center;padding:0 20px}
+.hs-num{font-size:28px;font-weight:800;line-height:1.2}
+.hs-label{font-size:13px;color:#4a4a5a;margin-top:1px}
+.hs-sep{width:1px;height:28px;background:rgba(0,0,0,0.12)}
+@media(max-width:480px){.hero-stats{gap:8px}.hs{padding:0 12px}.hs-num{font-size:22px}.hs-sep{height:20px}}
+.sec-hero::after{background:#EEF2FF}
 
 /* Process - blanc */
 .sec-process{background:#FFFFFF!important;color:#1a1a1a}
@@ -231,7 +242,7 @@ img,svg{max-width:100%;display:block}
 .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);backdrop-filter:blur(10px);border:1px solid var(--glass-border);padding:8px 20px;border-radius:100px;font-size:14px;font-weight:600;color:var(--text-dark);box-shadow:var(--shadow)}
 
 /* ===== SECTION HEADERS ===== */
-.sh{text-align:center;margin-bottom:48px}
+.sh{text-align:center;margin-bottom:32px}
 .sh h2{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;color:var(--text-dark)}
 .sh p{font-size:17px;color:var(--text-med);max-width:550px;margin:0 auto}
 .text-s{color:var(--text-med);font-size:15px;line-height:1.6}
@@ -272,7 +283,7 @@ img,svg{max-width:100%;display:block}
 .nav-mob a{font-size:24px;font-weight:600;color:#1a1a1a}
 
 /* ===== HERO ===== */
-.hero{padding:140px 0 80px;position:relative;overflow:visible;text-align:center}
+.hero{padding:120px 0 60px;min-height:100vh;position:relative;overflow:visible;text-align:center}
 .hero-gradient{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.5;transition:background 0.3s}
 .particles{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .particle{position:absolute;border-radius:50%;animation:particleFloat var(--dur) linear infinite;animation-delay:var(--del)}
@@ -320,7 +331,7 @@ img,svg{max-width:100%;display:block}
 .st-label{font-size:14px;color:var(--text-med);margin-top:2px}
 
 /* ===== PROCESS ===== */
-.process-grid{display:flex;gap:24px;position:relative}
+.process-grid{display:flex;gap:20px;position:relative}
 .process-card{flex:1;padding:32px;text-align:center;position:relative;z-index:1}
 .process-card:nth-child(3){transform:translateY(-10px)}
 .p-num{font-size:72px;font-weight:900;line-height:1;opacity:0.12}
@@ -347,7 +358,7 @@ img,svg{max-width:100%;display:block}
 .c-card:hover .c-link{opacity:1}
 
 /* ===== SERVICES ===== */
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .svc{padding:32px;border-radius:var(--radius)}
 .svc-icon{font-size:44px;margin-bottom:14px}
 .svc h3{font-size:18px;font-weight:700;margin-bottom:6px}
@@ -402,7 +413,7 @@ img,svg{max-width:100%;display:block}
 .cmp-stars{margin-top:12px;font-size:14px}
 
 /* ===== PRICING ===== */
-.price-grid{display:flex;gap:24px;max-width:1000px;margin:0 auto;align-items:stretch}
+.price-grid{display:flex;gap:20px;max-width:1000px;margin:0 auto;align-items:stretch}
 .price{flex:1;padding:32px;text-align:center}
 .price.featured{transform:scale(1.05);position:relative;z-index:1}
 .price-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gradient);color:#fff;padding:5px 16px;border-radius:20px;font-size:12px;font-weight:700;box-shadow:0 2px 10px rgba(124,58,237,0.2);white-space:nowrap}
@@ -442,7 +453,7 @@ img,svg{max-width:100%;display:block}
 .faq-a p{font-size:15px;color:var(--text-med);line-height:1.7}
 
 /* ===== TEAM ===== */
-.team-grid{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.team-grid{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
 .team-card{text-align:center;padding:32px 36px;max-width:300px}
 .team-av{width:72px;height:72px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin:0 auto 12px}
 .team-card h3{font-size:20px;font-weight:700;margin-bottom:1px;color:var(--text-dark)}
@@ -479,7 +490,6 @@ img,svg{max-width:100%;display:block}
     .nav-links{display:none}.nav-toggle{display:flex}
     .hero h1{font-size:clamp(36px,8vw,52px)}
     .hero-bento{grid-template-columns:1fr;grid-template-rows:auto}
-    .stats-row{flex-wrap:wrap}.stats-row .st{min-width:50%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06)}.stats-row .st:nth-child(3),.stats-row .st:nth-child(4){border-bottom:none}
     .process-grid{flex-direction:column}.process-card:nth-child(3){transform:none}
     .svc-grid{grid-template-columns:1fr}
     .cmp{min-width:100%}.cmp.featured{transform:none}
@@ -496,6 +506,52 @@ img,svg{max-width:100%;display:block}
     .footer-bottom{flex-direction:column;text-align:center}.footer-legal{justify-content:center}
     .c-card{width:260px;height:180px}
 }
+/* ===== QUESTIONNAIRE MODAL ===== */
+.q-modal{position:fixed;inset:0;z-index:100000;background:#0a0a0a;display:none;flex-direction:column;overflow:hidden}
+.q-modal.open{display:flex}
+.q-top{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.q-back{display:flex;align-items:center;gap:6px;font-size:14px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;font-family:inherit;padding:4px 8px}
+.q-back:hover{color:#fff}
+.q-progress{flex:1;max-width:300px;margin:0 24px}
+.q-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.q-bar-fill{height:100%;background:var(--gradient);border-radius:4px;transition:width 0.4s ease;width:12.5%}
+.q-close{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:none;color:#fff;font-size:18px;cursor:pointer;transition:all 0.2s}
+.q-close:hover{background:rgba(255,255,255,0.1)}
+.q-body{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.q-step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;transform:translateX(60px);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);pointer-events:none}
+.q-step.q-active{opacity:1;transform:translateX(0);pointer-events:auto}
+.q-step.q-left{opacity:0;transform:translateX(-60px)}
+.q-step h2{font-size:clamp(24px,4vw,36px);font-weight:800;color:#fff;margin-bottom:24px;text-align:center}
+.q-step p.q-sub{font-size:15px;color:rgba(255,255,255,0.6);margin-bottom:20px;text-align:center}
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;max-width:700px;width:100%}
+.q-grid-2{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.q-grid-3{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.q-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;text-align:center;cursor:pointer;transition:all 0.25s ease;color:#fff;font-size:15px;font-weight:500;position:relative}
+.q-card:hover{transform:scale(1.03);border-color:rgba(124,58,237,0.4);box-shadow:0 0 20px rgba(124,58,237,0.15)}
+.q-card.selected{border-color:#7C3AED;background:rgba(124,58,237,0.15);box-shadow:0 0 25px rgba(124,58,237,0.2)}
+.q-card.selected::after{content:'✓';position:absolute;top:8px;right:10px;font-size:14px;color:#7C3AED;font-weight:700}
+.q-card .q-emoji{font-size:28px;margin-bottom:6px;display:block}
+.q-card .q-price{font-size:28px;font-weight:900;margin:6px 0 2px}
+.q-card .q-price-label{font-size:12px;color:rgba(255,255,255,0.5)}
+.q-card.q-recommended{border-color:rgba(124,58,237,0.4);position:relative}
+.q-card.q-recommended .q-rec-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gradient);color:#fff;padding:2px 12px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
+.q-input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 18px;font-size:16px;color:#fff;width:100%;max-width:400px;font-family:inherit;outline:none;transition:border-color 0.2s}
+.q-input:focus{border-color:#7C3AED}
+.q-input::placeholder{color:rgba(255,255,255,0.3)}
+.q-textarea{min-height:80px;resize:vertical}
+.q-btn{background:var(--gradient);color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:inherit;margin-top:16px;transition:all 0.3s}
+.q-btn:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(124,58,237,0.3)}
+.q-error{color:#EF4444;font-size:13px;margin-top:8px;min-height:18px}
+.q-contact-form{display:flex;flex-direction:column;gap:12px;max-width:400px;width:100%}
+.q-contact-form .q-input{max-width:100%}
+.q-style-card{min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.q-style-swatch{width:48px;height:32px;border-radius:8px;margin-bottom:2px}
+.q-metier-other{display:none;margin-top:12px}
+.q-confirm{text-align:center}
+.q-confirm h2{font-size:clamp(28px,5vw,44px);margin-bottom:16px}
+.q-confirm p{color:rgba(255,255,255,0.7);font-size:16px;line-height:1.7;max-width:500px}
+@media(max-width:600px){.q-grid{grid-template-columns:1fr 1fr}.q-grid-2{grid-template-columns:1fr}.q-grid-3{grid-template-columns:1fr}.q-card{padding:14px}}
+
 @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
     html{scroll-behavior:auto}
@@ -527,7 +583,7 @@ img,svg{max-width:100%;display:block}
 <div class="stack-wrapper">
 
 <!-- ===== HERO ===== -->
-<section class="hero stack-section sec-hero" id="hero" style="z-index:1;background:#F5F3FF">
+<section class="hero stack-section stack-normal sec-hero" id="hero" style="z-index:2;background:#EEF2FF">
     <div class="hero-gradient" id="heroGrad"></div>
     <div class="particles" id="particles"></div>
     <div class="hero-content container">
@@ -539,6 +595,17 @@ img,svg{max-width:100%;display:block}
             <a href="#pricing" class="btn btn-secondary magnetic">Découvrir les tarifs</a>
         </div>
         <div class="hero-trust anim anim-up" style="--d:0.6s"><span>✓ 0€ de création</span><span>✓ Sans engagement</span><span>✓ Support 24/7</span></div>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats anim anim-up" style="--d:0.7s">
+            <div class="hs"><span class="hs-num gt" data-target="50" data-suffix="+">0</span><span class="hs-label">Sites livrés</span></div>
+            <div class="hs-sep"></div>
+            <div class="hs"><span class="hs-num gt" data-target="100" data-suffix="%">0</span><span class="hs-label">Satisfaits</span></div>
+            <div class="hs-sep"></div>
+            <div class="hs"><span class="hs-num gt" data-target="48" data-suffix="h">0</span><span class="hs-label">Délai moyen</span></div>
+            <div class="hs-sep"></div>
+            <div class="hs"><span class="hs-num gt" data-target="24" data-suffix="/7">0</span><span class="hs-label">Support</span></div>
+        </div>
 
         <!-- Hero Bento -->
         <div class="hero-bento">
@@ -569,22 +636,8 @@ img,svg{max-width:100%;display:block}
     </div>
 </section>
 
-<!-- ===== STATS ===== -->
-<section class="section-spacing stack-section sec-stats" style="z-index:2;background:#ECFDF5">
-    <div class="container">
-        <div class="card anim anim-up" style="padding:48px 24px">
-            <div class="stats-row">
-                <div class="st"><div class="st-num gt" data-target="50" data-suffix="+">0</div><div class="st-label">Sites livrés</div></div>
-                <div class="st"><div class="st-num gt" data-target="100" data-suffix="%">0</div><div class="st-label">Satisfaits</div></div>
-                <div class="st"><div class="st-num gt" data-target="48" data-suffix="h">0</div><div class="st-label">Délai moyen</div></div>
-                <div class="st"><div class="st-num gt" data-target="24" data-suffix="/7">0</div><div class="st-label">Support</div></div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ===== PROCESS ===== -->
-<section class="section-spacing stack-section sec-process" id="process" style="z-index:3;background:#FFFFFF">
+<section class="section-spacing stack-section stack-leave sec-process" id="process" style="z-index:4;background:#FFFFFF">
     <div class="container">
         <div class="sh">
             <h2 class="anim anim-blur">Simple comme <span class="gt">bonjour</span></h2>
@@ -602,7 +655,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== PORTFOLIO ===== -->
-<section class="section-spacing stack-section sec-portfolio" id="portfolio" style="z-index:4;background:#4C1D95">
+<section class="section-spacing stack-section stack-reveal sec-portfolio" id="portfolio" style="z-index:3;background:#4C1D95">
     <div class="container"><div class="sh"><h2 class="anim anim-blur">Nos dernières <span class="gt">réalisations</span></h2><p class="anim anim-up">Chaque site est unique, conçu sur-mesure pour le métier de nos clients.</p></div></div>
     <div class="carousel-wrap">
         <div class="carousel-track" id="carouselTrack">
@@ -623,7 +676,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== SERVICES ===== -->
-<section class="section-spacing stack-section sec-services" id="services" style="z-index:5;background:#FFF7ED">
+<section class="section-spacing stack-section stack-leave sec-services" id="services" style="z-index:6;background:#FFF7ED">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pour tous les <span class="gt">professionnels</span></h2><p class="anim anim-up">Des sites pensés pour votre métier, avec les fonctionnalités qui comptent.</p></div>
         <div class="svc-grid">
@@ -638,7 +691,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== AVANT/APRÈS ===== -->
-<section class="section-spacing stack-section sec-ba" style="z-index:6;background:#0a0a0a">
+<section class="section-spacing stack-section stack-reveal sec-ba" style="z-index:5;background:#0a0a0a">
     <div class="container">
         <div class="ba-outer card-black anim anim-left">
             <div class="sh" style="margin-bottom:0"><h2 class="anim anim-blur">La différence <span class="gt">WebsiteBuild</span></h2></div>
@@ -667,7 +720,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== COMPARE ===== -->
-<section class="section-spacing stack-section sec-compare" id="compare" style="z-index:7;background:#1E40AF">
+<section class="section-spacing stack-section stack-leave sec-compare" id="compare" style="z-index:8;background:#1E40AF">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Pourquoi nous <span class="gt">choisir</span> ?</h2></div>
         <div class="cmp-grid">
@@ -680,7 +733,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== PRICING ===== -->
-<section class="section-spacing stack-section sec-pricing" id="pricing" style="z-index:8;background:#FFFFFF">
+<section class="section-spacing stack-section stack-reveal sec-pricing" id="pricing" style="z-index:7;background:#FFFFFF">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Tarifs <span class="gt">transparents</span></h2><p class="anim anim-up">Pas de surprise, pas de frais cachés.</p></div>
         <div class="price-grid">
@@ -709,7 +762,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
-<section class="section-spacing stack-section sec-testi" style="z-index:9;background:#FF6B35">
+<section class="section-spacing stack-section stack-leave sec-testi" style="z-index:10;background:#FF6B35">
     <div class="container">
         <div class="sh" style="margin-bottom:36px"><h2 class="anim anim-blur">Ce que disent nos <span class="gt">clients</span></h2></div>
         <div class="testi-grid">
@@ -721,7 +774,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section-spacing stack-section sec-faq" id="faq" style="z-index:10;background:#F7FEE7">
+<section class="section-spacing stack-section stack-reveal sec-faq" id="faq" style="z-index:9;background:#F7FEE7">
     <div class="container" style="max-width:800px">
         <div class="card anim anim-scale" style="padding:48px 40px">
             <div class="sh" style="margin-bottom:24px"><h2>Questions <span class="gt">fréquentes</span></h2></div>
@@ -738,7 +791,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== TEAM ===== -->
-<section class="section-spacing stack-section sec-team" id="team" style="z-index:11;background:#FFFFFF">
+<section class="section-spacing stack-section stack-leave sec-team" id="team" style="z-index:12;background:#FFFFFF">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">L'équipe derrière <span class="gt">WebsiteBuild</span></h2></div>
         <div class="team-grid">
@@ -750,7 +803,7 @@ img,svg{max-width:100%;display:block}
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="section-spacing stack-section sec-cta" id="contact" style="z-index:12;background:#7C3AED">
+<section class="section-spacing stack-section stack-reveal sec-cta" id="contact" style="z-index:11;background:#7C3AED">
     <div class="container">
         <div class="cta-final anim anim-scale">
             <h2>L'avenir de votre site commence ici.</h2>
@@ -764,7 +817,7 @@ img,svg{max-width:100%;display:block}
 </div><!-- /stack-wrapper -->
 
 <!-- ===== FOOTER ===== -->
-<footer class="footer footer-styled" style="position:relative;z-index:13;background:#F9FAFB">
+<footer class="footer footer-styled" style="position:relative;z-index:15;background:#F9FAFB">
     <div class="container">
         <div class="footer-top">
             <div class="footer-brand"><div class="nav-logo">websitebuild<span class="dot">.</span></div><p>Sites web professionnels livrés en 48h. On s'occupe de tout.</p><div class="footer-social"><a href="#" aria-label="Instagram">📷</a><a href="#" aria-label="TikTok">🎵</a></div></div>
@@ -775,6 +828,118 @@ img,svg{max-width:100%;display:block}
         <div class="footer-bottom"><span>© 2026 WebsiteBuild. Tous droits réservés.</span><div class="footer-legal"><a href="#">Mentions légales</a><a href="#">CGV</a></div></div>
     </div>
 </footer>
+
+<!-- ===== QUESTIONNAIRE MODAL ===== -->
+<div class="q-modal" id="quizModal">
+    <div class="q-top">
+        <button class="q-back" style="display:none">← Retour</button>
+        <div class="q-progress"><div class="q-bar"><div class="q-bar-fill"></div></div></div>
+        <button class="q-close">✕</button>
+    </div>
+    <div class="q-body">
+        <!-- Step 1: Métier -->
+        <div class="q-step q-active">
+            <h2>Quel est votre métier ?</h2>
+            <div class="q-grid">
+                <div class="q-card q-metier-card" data-value="Restaurant / Bar"><span class="q-emoji">🍽️</span>Restaurant / Bar</div>
+                <div class="q-card q-metier-card" data-value="Coiffeur / Barbier"><span class="q-emoji">💇</span>Coiffeur / Barbier</div>
+                <div class="q-card q-metier-card" data-value="Tatoueur"><span class="q-emoji">🎨</span>Tatoueur</div>
+                <div class="q-card q-metier-card" data-value="Salon de beauté"><span class="q-emoji">💅</span>Salon de beauté</div>
+                <div class="q-card q-metier-card" data-value="Coach sportif"><span class="q-emoji">💪</span>Coach sportif</div>
+                <div class="q-card q-metier-card" data-value="Yoga / Pilates / Bien-être"><span class="q-emoji">🧘</span>Yoga / Bien-être</div>
+                <div class="q-card q-metier-card" data-value="Location / Immobilier"><span class="q-emoji">🏡</span>Location / Immobilier</div>
+                <div class="q-card q-metier-card" data-value="Wedding Planner / Événementiel"><span class="q-emoji">💒</span>Wedding Planner</div>
+                <div class="q-card q-metier-card" data-value="Artisan / BTP"><span class="q-emoji">🔨</span>Artisan / BTP</div>
+                <div class="q-card q-metier-card" data-value="autre"><span class="q-emoji">✨</span>Autre</div>
+            </div>
+            <input class="q-input q-metier-other" type="text" placeholder="Précisez votre métier...">
+            <button class="q-btn q-metier-continue" style="display:none">Continuer →</button>
+        </div>
+        <!-- Step 2: Entreprise -->
+        <div class="q-step">
+            <h2>Comment s'appelle votre entreprise ?</h2>
+            <input class="q-input q-entreprise-input" type="text" placeholder="Ex: La Table d'Or">
+            <button class="q-btn q-entreprise-btn">Continuer →</button>
+        </div>
+        <!-- Step 3: Déjà un site -->
+        <div class="q-step">
+            <h2>Avez-vous déjà un site internet ?</h2>
+            <div class="q-grid q-grid-3" style="max-width:600px">
+                <div class="q-card q-site-card" data-value="Non, c'est mon premier site"><span class="q-emoji">🆕</span>Non, c'est mon premier site</div>
+                <div class="q-card q-site-card" data-value="Oui mais il est ancien/moche"><span class="q-emoji">😬</span>Oui mais il est ancien/moche</div>
+                <div class="q-card q-site-card" data-value="Oui mais je veux le refaire"><span class="q-emoji">🔄</span>Oui mais je veux le refaire</div>
+            </div>
+        </div>
+        <!-- Step 4: Contenu -->
+        <div class="q-step">
+            <h2>Que doit contenir votre site ?</h2>
+            <p class="q-sub">Sélectionnez tout ce qui vous intéresse</p>
+            <div class="q-grid q-grid-2" style="max-width:600px">
+                <div class="q-card q-contenu-card" data-value="Présentation">Présentation de mon activité</div>
+                <div class="q-card q-contenu-card" data-value="Galerie">Galerie photos / Portfolio</div>
+                <div class="q-card q-contenu-card" data-value="RDV">Prise de rendez-vous en ligne</div>
+                <div class="q-card q-contenu-card" data-value="Menu">Menu / Carte (restaurant)</div>
+                <div class="q-card q-contenu-card" data-value="Réservation">Réservation en ligne</div>
+                <div class="q-card q-contenu-card" data-value="Boutique">Boutique en ligne</div>
+                <div class="q-card q-contenu-card" data-value="Blog">Blog</div>
+                <div class="q-card q-contenu-card" data-value="Formulaire">Formulaire de contact</div>
+                <div class="q-card q-contenu-card" data-value="Avis">Avis clients</div>
+                <div class="q-card q-contenu-card" data-value="Autre">Autre</div>
+            </div>
+            <button class="q-btn q-contenu-btn">Continuer →</button>
+        </div>
+        <!-- Step 5: Style -->
+        <div class="q-step">
+            <h2>Quel style vous plaît ?</h2>
+            <div class="q-grid" style="max-width:600px;grid-template-columns:repeat(2,1fr)">
+                <div class="q-card q-style-card" data-value="Moderne & Minimaliste"><div class="q-style-swatch" style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.2)"></div>Moderne &amp; Minimaliste</div>
+                <div class="q-card q-style-card" data-value="Coloré & Fun"><div class="q-style-swatch" style="background:linear-gradient(135deg,#EC4899,#F59E0B)"></div>Coloré &amp; Fun</div>
+                <div class="q-card q-style-card" data-value="Élégant & Luxe"><div class="q-style-swatch" style="background:linear-gradient(135deg,#1a1a2e,#D4AF37)"></div>Élégant &amp; Luxe</div>
+                <div class="q-card q-style-card" data-value="Surprise moi"><div class="q-style-swatch" style="background:var(--gradient)"></div>Surprise moi ✨</div>
+            </div>
+        </div>
+        <!-- Step 6: Contenus prêts -->
+        <div class="q-step">
+            <h2>Avez-vous déjà des contenus prêts ?</h2>
+            <div class="q-grid q-grid-3" style="max-width:600px">
+                <div class="q-card q-contenus-card" data-value="Tout prêt"><span class="q-emoji">✅</span>Oui, j'ai logo + photos + textes</div>
+                <div class="q-card q-contenus-card" data-value="Logo seulement"><span class="q-emoji">🎨</span>J'ai un logo mais pas de photos/textes</div>
+                <div class="q-card q-contenus-card" data-value="Rien"><span class="q-emoji">🤷</span>J'ai rien du tout, créez tout pour moi</div>
+            </div>
+        </div>
+        <!-- Step 7: Forfait -->
+        <div class="q-step">
+            <h2>Quel forfait vous intéresse ?</h2>
+            <div class="q-grid" style="max-width:700px;grid-template-columns:repeat(2,1fr)">
+                <div class="q-card q-forfait-card" data-value="Essentiel 149€/mois"><div class="q-price">149€</div><div class="q-price-label">/mois</div>Essentiel</div>
+                <div class="q-card q-forfait-card q-recommended" data-value="Pro 199€/mois"><div class="q-rec-badge">⭐ RECOMMANDÉ</div><div class="q-price">199€</div><div class="q-price-label">/mois</div>Pro</div>
+                <div class="q-card q-forfait-card" data-value="Premium 299€/mois"><div class="q-price">299€</div><div class="q-price-label">/mois</div>Premium</div>
+                <div class="q-card q-forfait-card" data-value="Je sais pas encore"><span class="q-emoji">🤔</span>Je sais pas encore</div>
+            </div>
+        </div>
+        <!-- Step 8: Coordonnées -->
+        <div class="q-step">
+            <h2>Comment on vous contacte ?</h2>
+            <div class="q-contact-form">
+                <input class="q-input" name="prenom" type="text" placeholder="Prénom *" required>
+                <input class="q-input" name="email" type="email" placeholder="Email *" required>
+                <input class="q-input" name="telephone" type="tel" placeholder="Téléphone / WhatsApp *" required>
+                <input class="q-input" name="ville" type="text" placeholder="Ville (optionnel)">
+                <textarea class="q-input q-textarea" name="message" placeholder="Un message ou une précision ?"></textarea>
+                <div class="q-error"></div>
+                <button class="q-btn q-submit-btn">Envoyer ma demande →</button>
+            </div>
+        </div>
+        <!-- Step 9: Confirmation -->
+        <div class="q-step">
+            <div class="q-confirm">
+                <h2>🎉 Demande envoyée !</h2>
+                <p>Merci <strong class="q-confirm-name"></strong> ! On a bien reçu votre demande. Vous recevrez une maquette gratuite de votre futur site sous 24h. On vous contacte très vite sur WhatsApp.</p>
+                <button class="q-btn q-confirm-close" style="margin-top:24px">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 /* ===== CUSTOM CURSOR ===== */
@@ -834,22 +999,46 @@ document.addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth*100).toF
 const pc=document.getElementById('particles');
 for(let i=0;i<18;i++){const p=document.createElement('div');p.className='particle';const s=3+Math.random()*4;const c=Math.random()>0.5?'#7C3AED':'#3B82F6';p.style.cssText='width:'+s+'px;height:'+s+'px;background:'+c+';left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--po:'+(0.1+Math.random()*0.2)+';--dx:'+(Math.random()*100-50)+'px;--dy:'+(Math.random()*100-50)+'px;--dur:'+(8+Math.random()*12)+'s;--del:'+(Math.random()*8)+'s';pc.appendChild(p)}
 
-/* ===== TILT 3D ===== */
-document.querySelectorAll('.card,.svc,.hb-card').forEach(el=>{
-    el.style.transformStyle='preserve-3d';
-    el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform='perspective(800px) rotateY('+x*8+'deg) rotateX('+(-y*8)+'deg) translateY(-8px)';el.style.transition='transform 0.1s'});
-    el.addEventListener('mouseleave',()=>{el.style.transform='';el.style.transition='transform 0.4s cubic-bezier(0.16,1,0.3,1)'});
-});
+/* ===== TILT 3D (lerp + rAF) ===== */
+if(window.innerWidth>768){
+    document.querySelectorAll('.card,.svc,.hb-card').forEach(el=>{
+        el.style.transformStyle='preserve-3d';
+        el.style.willChange='transform';
+        let tiltRAF=null,targetRX=0,targetRY=0,currentRX=0,currentRY=0,isHovering=false;
+        function tiltLoop(){
+            if(!isHovering&&Math.abs(currentRX)<0.01&&Math.abs(currentRY)<0.01){currentRX=0;currentRY=0;el.style.transform='';tiltRAF=null;return}
+            currentRX+=(targetRX-currentRX)*0.1;
+            currentRY+=(targetRY-currentRY)*0.1;
+            el.style.transform='perspective(800px) rotateY('+currentRY.toFixed(2)+'deg) rotateX('+currentRX.toFixed(2)+'deg) translateY(-6px)';
+            tiltRAF=requestAnimationFrame(tiltLoop);
+        }
+        el.addEventListener('mousemove',e=>{
+            const r=el.getBoundingClientRect();
+            const x=(e.clientX-r.left)/r.width-.5;
+            const y=(e.clientY-r.top)/r.height-.5;
+            targetRY=x*8;targetRX=-y*8;
+            isHovering=true;
+            if(!tiltRAF)tiltRAF=requestAnimationFrame(tiltLoop);
+        });
+        el.addEventListener('mouseleave',()=>{
+            isHovering=false;targetRX=0;targetRY=0;
+            el.style.transition='transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+            setTimeout(()=>{el.style.transition=''},600);
+            if(!tiltRAF)tiltRAF=requestAnimationFrame(tiltLoop);
+        });
+    });
+}
 
 /* ===== DYNAMIC BACKGROUND COLOR (disabled - sections have fixed colors) ===== */
 
-/* ===== STICKY STACKING COVER EFFECT ===== */
+/* ===== STICKY STACKING + LEAVE EFFECT ===== */
 const stackSections=document.querySelectorAll('.stack-section');
+/* Normal stacking cover effect */
 const stackObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
         const idx=Array.from(stackSections).indexOf(e.target);
         const prev=idx>0?stackSections[idx-1]:null;
-        if(e.isIntersecting&&e.intersectionRatio>0.1&&prev){
+        if(e.isIntersecting&&e.intersectionRatio>0.1&&prev&&!prev.classList.contains('stack-leave')){
             prev.classList.add('covered');
         }
         if(!e.isIntersecting&&prev){
@@ -858,6 +1047,21 @@ const stackObs=new IntersectionObserver(entries=>{
     });
 },{threshold:[0,0.1,0.25,0.5,0.75,1]});
 stackSections.forEach(s=>stackObs.observe(s));
+
+/* Leave effect for stack-leave sections */
+function checkLeaving(){
+    document.querySelectorAll('.stack-leave').forEach(sec=>{
+        const r=sec.getBoundingClientRect();
+        const ratio=r.bottom/window.innerHeight;
+        if(ratio<0.7&&ratio>0){
+            sec.classList.add('leaving');
+        }else{
+            sec.classList.remove('leaving');
+        }
+    });
+    requestAnimationFrame(checkLeaving);
+}
+checkLeaving();
 
 /* ===== PROCESS LINE ===== */
 const pl=document.getElementById('processLine');
@@ -873,23 +1077,38 @@ if(baCont){let d=false;function upd(x){const r=baCont.getBoundingClientRect();le
 baCont.addEventListener('mousedown',e=>{d=true;upd(e.clientX)});window.addEventListener('mousemove',e=>{if(d){e.preventDefault();upd(e.clientX)}});window.addEventListener('mouseup',()=>d=false);
 baCont.addEventListener('touchstart',e=>{d=true;upd(e.touches[0].clientX)},{passive:true});window.addEventListener('touchmove',e=>{if(d)upd(e.touches[0].clientX)},{passive:true});window.addEventListener('touchend',()=>d=false)}
 
-/* ===== MAGNETIC BUTTONS ===== */
+/* ===== MAGNETIC BUTTONS (lerp + rAF) ===== */
 if(window.innerWidth>768){
     document.querySelectorAll('.magnetic').forEach(btn=>{
+        btn.style.willChange='transform';
+        let magRAF=null,magTargetX=0,magTargetY=0,magCurrentX=0,magCurrentY=0,magActive=false,magScale=1;
+        function magLoop(){
+            magCurrentX+=(magTargetX-magCurrentX)*0.12;
+            magCurrentY+=(magTargetY-magCurrentY)*0.12;
+            const cScale=1+(magScale-1)*0.12;
+            btn.style.transform='translate('+magCurrentX.toFixed(2)+'px,'+magCurrentY.toFixed(2)+'px) scale('+cScale.toFixed(3)+')';
+            if(magActive||Math.abs(magCurrentX-magTargetX)>0.1||Math.abs(magCurrentY-magTargetY)>0.1){
+                magRAF=requestAnimationFrame(magLoop);
+            }else{
+                magCurrentX=magTargetX;magCurrentY=magTargetY;
+                btn.style.transform=magTargetX===0&&magTargetY===0?'':'translate('+magTargetX+'px,'+magTargetY+'px)';
+                magRAF=null;
+            }
+        }
         document.addEventListener('mousemove',e=>{
             const r=btn.getBoundingClientRect();
             const cx=r.left+r.width/2,cy=r.top+r.height/2;
             const dx=e.clientX-cx,dy=e.clientY-cy;
             const dist=Math.sqrt(dx*dx+dy*dy);
             if(dist<100){
-                const tx=Math.max(-15,Math.min(15,dx*0.3));
-                const ty=Math.max(-15,Math.min(15,dy*0.3));
-                const s=dist<r.width/2?'scale(1.05)':'';
-                btn.style.transform='translate('+tx+'px,'+ty+'px) '+s;
-                btn.style.transition='transform 0.2s ease';
-            }else{
-                btn.style.transform='';
-                btn.style.transition='transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+                magTargetX=Math.max(-15,Math.min(15,dx*0.3));
+                magTargetY=Math.max(-15,Math.min(15,dy*0.3));
+                magScale=dist<r.width/2?1.05:1;
+                magActive=true;
+                if(!magRAF)magRAF=requestAnimationFrame(magLoop);
+            }else if(magActive){
+                magActive=false;magTargetX=0;magTargetY=0;magScale=1;
+                if(!magRAF)magRAF=requestAnimationFrame(magLoop);
             }
         });
     });
@@ -949,6 +1168,194 @@ if(heroSplit){
         c.style.backgroundClip='text';
     });
 }
+/* ===== QUESTIONNAIRE MODAL ===== */
+const qModal=document.getElementById('quizModal');
+const qSteps=qModal.querySelectorAll('.q-step');
+const qBar=qModal.querySelector('.q-bar-fill');
+const qBackBtn=qModal.querySelector('.q-back');
+let qCurrent=0;
+const qData={metier:'',entreprise:'',dejaSite:'',contenu:[],style:'',contenus:'',forfait:'',prenom:'',email:'',telephone:'',ville:'',message:''};
+const totalSteps=8;
+
+function qShow(){qModal.classList.add('open');document.body.style.overflow='hidden';qGoTo(0)}
+function qHide(){qModal.classList.remove('open');document.body.style.overflow=''}
+function qGoTo(n){
+    qSteps.forEach((s,i)=>{
+        s.classList.remove('q-active','q-left');
+        if(i<n)s.classList.add('q-left');
+        if(i===n)s.classList.add('q-active');
+    });
+    qCurrent=n;
+    qBar.style.width=((n+1)/totalSteps*100)+'%';
+    qBackBtn.style.display=n>0&&n<totalSteps?'flex':'none';
+    if(n===totalSteps){qBar.style.width='100%';qBackBtn.style.display='none'}
+}
+function qNext(){if(qCurrent<totalSteps)qGoTo(qCurrent+1)}
+function qPrev(){if(qCurrent>0)qGoTo(qCurrent-1)}
+
+/* Step 1 - Métier */
+qModal.querySelectorAll('.q-metier-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        qModal.querySelectorAll('.q-metier-card').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');
+        const v=c.dataset.value;
+        if(v==='autre'){
+            const inp=qModal.querySelector('.q-metier-other');
+            const btn=qModal.querySelector('.q-metier-continue');
+            inp.style.display='block';btn.style.display='inline-flex';inp.focus();
+            qData.metier=inp.value||'Autre';
+            inp.addEventListener('input',()=>{qData.metier=inp.value});
+        }else{
+            qData.metier=v;
+            qModal.querySelector('.q-metier-other').style.display='none';
+            setTimeout(qNext,300);
+        }
+    });
+});
+/* Step 1 autre - continue btn */
+qModal.querySelector('.q-metier-continue')?.addEventListener('click',()=>{
+    const inp=qModal.querySelector('.q-metier-other');
+    if(inp.value.trim()){qData.metier=inp.value.trim();qNext()}
+});
+
+/* Step 2 - Entreprise */
+qModal.querySelector('.q-entreprise-btn')?.addEventListener('click',()=>{
+    const v=qModal.querySelector('.q-entreprise-input').value.trim();
+    if(v){qData.entreprise=v;qNext()}
+});
+qModal.querySelector('.q-entreprise-input')?.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){const v=e.target.value.trim();if(v){qData.entreprise=v;qNext()}}
+});
+
+/* Step 3 - Déjà un site */
+qModal.querySelectorAll('.q-site-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        qModal.querySelectorAll('.q-site-card').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');qData.dejaSite=c.dataset.value;
+        setTimeout(qNext,300);
+    });
+});
+
+/* Step 4 - Contenu (multi-select) */
+qModal.querySelectorAll('.q-contenu-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        c.classList.toggle('selected');
+        qData.contenu=Array.from(qModal.querySelectorAll('.q-contenu-card.selected')).map(x=>x.dataset.value);
+    });
+});
+qModal.querySelector('.q-contenu-btn')?.addEventListener('click',()=>{if(qData.contenu.length>0)qNext()});
+
+/* Step 5 - Style */
+qModal.querySelectorAll('.q-style-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        qModal.querySelectorAll('.q-style-card').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');qData.style=c.dataset.value;
+        setTimeout(qNext,300);
+    });
+});
+
+/* Step 6 - Contenus prêts */
+qModal.querySelectorAll('.q-contenus-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        qModal.querySelectorAll('.q-contenus-card').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');qData.contenus=c.dataset.value;
+        setTimeout(qNext,300);
+    });
+});
+
+/* Step 7 - Forfait */
+qModal.querySelectorAll('.q-forfait-card').forEach(c=>{
+    c.addEventListener('click',()=>{
+        qModal.querySelectorAll('.q-forfait-card').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');qData.forfait=c.dataset.value;
+        setTimeout(qNext,300);
+    });
+});
+
+/* Step 8 - Coordonnées & submit */
+qModal.querySelector('.q-submit-btn')?.addEventListener('click',()=>{
+    const f=qModal.querySelector('.q-contact-form');
+    const prenom=f.querySelector('[name=prenom]').value.trim();
+    const email=f.querySelector('[name=email]').value.trim();
+    const tel=f.querySelector('[name=telephone]').value.trim();
+    const ville=f.querySelector('[name=ville]').value.trim();
+    const msg=f.querySelector('[name=message]').value.trim();
+    if(!prenom||!email||!tel){
+        f.querySelector('.q-error').textContent='Veuillez remplir les champs obligatoires.';
+        return;
+    }
+    qData.prenom=prenom;qData.email=email;qData.telephone=tel;qData.ville=ville;qData.message=msg;
+    /* Save to localStorage */
+    const saved=JSON.parse(localStorage.getItem('wb_leads')||'[]');
+    saved.push({...qData,date:new Date().toISOString()});
+    localStorage.setItem('wb_leads',JSON.stringify(saved));
+    console.log('WebsiteBuild Lead:',qData);
+    /* Send to API (placeholder) */
+    fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(qData)}).catch(()=>{});
+    /* Show confirmation */
+    qModal.querySelector('.q-confirm-name').textContent=prenom;
+    qGoTo(totalSteps);
+    /* Confetti */
+    launchConfetti();
+});
+
+/* Confetti */
+function launchConfetti(){
+    const canvas=document.createElement('canvas');
+    canvas.style.cssText='position:fixed;inset:0;z-index:100001;pointer-events:none';
+    canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+    document.body.appendChild(canvas);
+    const ctx=canvas.getContext('2d');
+    const colors=['#7C3AED','#3B82F6','#D9F99D','#FF6B35','#22C55E','#F59E0B','#EC4899'];
+    const particles=[];
+    for(let i=0;i<120;i++){
+        particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height*0.3-canvas.height*0.3,
+        vx:(Math.random()-0.5)*8,vy:Math.random()*4+2,
+        w:Math.random()*8+4,h:Math.random()*6+3,
+        color:colors[Math.floor(Math.random()*colors.length)],
+        rot:Math.random()*360,rotV:(Math.random()-0.5)*10,
+        opacity:1});
+    }
+    let start=performance.now();
+    function draw(t){
+        const elapsed=t-start;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        let alive=false;
+        particles.forEach(p=>{
+            p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.rot+=p.rotV;
+            if(elapsed>1500)p.opacity=Math.max(0,p.opacity-0.03);
+            if(p.opacity<=0)return;
+            alive=true;
+            ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+            ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;
+            ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+        });
+        if(alive&&elapsed<3000)requestAnimationFrame(draw);
+        else{canvas.remove()}
+    }
+    requestAnimationFrame(draw);
+}
+
+/* Close modal */
+qModal.querySelector('.q-close')?.addEventListener('click',qHide);
+qModal.querySelector('.q-confirm-close')?.addEventListener('click',qHide);
+qBackBtn?.addEventListener('click',qPrev);
+
+/* Intercept all CTA buttons */
+document.querySelectorAll('a[href="#contact"],.nav-cta,a[href*="wa.me"]').forEach(btn=>{
+    if(btn.closest('#quizModal'))return;
+    btn.addEventListener('click',e=>{e.preventDefault();qShow()});
+});
+/* Intercept pricing buttons */
+document.querySelectorAll('.price .btn,.cta-final .btn').forEach(btn=>{
+    if(btn.closest('#quizModal'))return;
+    btn.addEventListener('click',e=>{e.preventDefault();qShow()});
+});
+/* Nav mobile CTA */
+document.querySelectorAll('.nav-mob a[href="#contact"]').forEach(btn=>{
+    btn.addEventListener('click',e=>{e.preventDefault();navMob.classList.remove('open');qShow()});
+});
+
 /* CTA title — animate on scroll */
 const ctaTitle=document.querySelector('.cta-final h2');
 if(ctaTitle){
