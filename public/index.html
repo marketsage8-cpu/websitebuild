@@ -42,17 +42,13 @@ img,svg{max-width:100%;display:block}
 .stack-section.covered{transform:scale(0.95);filter:brightness(0.85)}
 @media(max-width:768px){.stack-section:not(:first-child){border-top-left-radius:16px;border-top-right-radius:16px}}
 
-/* ===== SVG WAVE TRANSITIONS ===== */
-.stack-section{overflow:visible!important;padding-bottom:40px;position:relative}
-.stack-section::after{display:none!important}
-.wave-divider{position:absolute;bottom:-1px;left:0;width:100%;height:90px;z-index:3;pointer-events:none;overflow:visible}
-.wave-divider svg{display:block;width:calc(100% + 40px);height:100%;margin-left:-20px;animation:waveFloat 6s ease-in-out infinite}
-@keyframes waveFloat{0%,100%{transform:translateX(-10px)}50%{transform:translateX(10px)}}
-.wave-divider.wave-fade svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12))}
+/* ===== CURVED SECTION TRANSITIONS ===== */
+.stack-section{overflow:visible!important;position:relative;padding-bottom:40px}
+.stack-section::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:110%;height:70px;border-radius:0 0 50% 50% / 0 0 100% 100%;z-index:2;pointer-events:none}
 
 /* Reveal sections (not sticky, revealed by previous leaving) */
 .stack-reveal{position:relative!important}
-.stack-reveal .wave-divider{display:none}
+.stack-reveal::after{display:none}
 
 /* Sticky leaving sections (stick then leave upward, revealing next) */
 .stack-leave{position:sticky;top:0;z-index:3;transition:transform 0.5s ease,filter 0.5s ease}
@@ -63,7 +59,7 @@ img,svg{max-width:100%;display:block}
 
 /* ===== SECTION COLORS ===== */
 /* Hero - dégradé violet pâle → bleu pâle */
-.sec-hero{background:linear-gradient(180deg,#F5F0FF 0%,#EEF2FF 100%)!important;color:#1a1a1a}
+.sec-hero{background:linear-gradient(180deg,#E8DEFF 0%,#DBEAFE 100%)!important;color:#1a1a1a}
 .sec-hero .badge{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.2);color:#7C3AED}
 .sec-hero h1{color:#1a1a1a}
 .sec-hero .hero-sub{color:#4a4a5a}
@@ -82,7 +78,7 @@ img,svg{max-width:100%;display:block}
 .hs-label{font-size:13px;color:#4a4a5a;margin-top:1px}
 .hs-sep{width:1px;height:28px;background:rgba(0,0,0,0.12)}
 @media(max-width:480px){.hero-stats{gap:8px}.hs{padding:0 12px}.hs-num{font-size:22px}.hs-sep{height:20px}}
-.sec-hero::after{background:#EEF2FF;background:linear-gradient(180deg,#EEF2FF,#EEF2FF)}
+.sec-hero::after{background:#DBEAFE}
 
 /* Process - blanc */
 .sec-process{background:#FFFFFF!important;color:#1a1a1a}
@@ -192,7 +188,7 @@ img,svg{max-width:100%;display:block}
 .sec-cta .cta-final .btn:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
 .sec-cta .cta-email{color:rgba(255,255,255,0.7)}
 .sec-cta .cta-email a{color:#D9F99D;font-weight:600}
-.sec-cta::after{background:#7C3AED}
+.sec-cta::after{display:none}
 
 /* Footer */
 .footer-styled{background:#F9FAFB!important;color:#1a1a1a;border-top:none}
@@ -286,7 +282,7 @@ img,svg{max-width:100%;display:block}
 
 /* ===== HERO ===== */
 .hero{padding:120px 0 60px;min-height:100vh;position:relative;overflow:visible;text-align:center}
-.hero-gradient{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.5;transition:background 0.3s}
+.hero-gradient{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0.3;transition:background 0.3s}
 .particles{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .particle{position:absolute;border-radius:50%;animation:particleFloat var(--dur) linear infinite;animation-delay:var(--del)}
 .hero-content{position:relative;z-index:1}
@@ -589,7 +585,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 <div class="stack-wrapper">
 
 <!-- ===== HERO ===== -->
-<section class="hero stack-section stack-normal sec-hero" id="hero" style="z-index:2;background:linear-gradient(180deg,#F5F0FF,#EEF2FF)">
+<section class="hero stack-section stack-normal sec-hero" id="hero" style="z-index:2;background:linear-gradient(180deg,#E8DEFF,#DBEAFE)">
     <div class="hero-gradient" id="heroGrad"></div>
     <div class="particles" id="particles"></div>
     <div class="hero-content container">
@@ -640,7 +636,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             </div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,60 Q360,90 720,60 Q1080,30 1440,60 L1440,0 Z" fill="#EEF2FF"/></svg></div>
+
 </section>
 
 <!-- ===== PROCESS ===== -->
@@ -659,7 +655,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             </div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,50 Q240,90 480,50 Q720,10 960,50 Q1200,90 1440,50 L1440,0 Z" fill="#FFFFFF"/></svg></div>
+
 </section>
 
 <!-- ===== PORTFOLIO ===== -->
@@ -681,7 +677,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="c-card" style="background:linear-gradient(135deg,#7C3AED,#6366F1)"><div class="c-overlay"></div><span class="c-badge">Yoga</span><div class="c-info"><h3>Fleur de Lotus</h3><p>Studio yoga</p></div><span class="c-link">Voir →</span></div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,30 Q480,90 960,40 L1440,70 L1440,0 Z" fill="#4C1D95"/></svg></div>
+
 </section>
 
 <!-- ===== SERVICES ===== -->
@@ -697,7 +693,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="svc svc-white anim anim-scale" data-delay="5"><div class="svc-icon">🧘</div><h3>Studios Yoga</h3><p>Planning cours, réservation, présentation profs.</p></div>
         </div>
     </div>
-    <div class="wave-divider wave-fade"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,70 Q720,0 1440,70 L1440,0 Z" fill="#FFF7ED"/></svg></div>
+
 </section>
 
 <!-- ===== AVANT/APRÈS ===== -->
@@ -727,7 +723,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="ba-checks"><span>Design premium</span><span>Mobile-first</span><span>Optimisé conversion</span></div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,0 Z" fill="#0a0a0a"/></svg></div>
+
 </section>
 
 <!-- ===== COMPARE ===== -->
@@ -741,7 +737,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="cmp card featured anim anim-scale" data-delay="3"><div class="cmp-badge">⭐ RECOMMANDÉ</div><div class="cmp-name gt">WebsiteBuild</div><div class="cmp-row"><strong>199€/mois</strong>Budget</div><div class="cmp-row"><strong>48h</strong>Délai</div><div class="cmp-row"><strong>Qualité agence</strong>Résultat</div><div class="cmp-row"><strong>24/7 WhatsApp</strong>Support</div><div class="cmp-row"><strong>0€ de création</strong></div><div class="cmp-stars">⭐⭐⭐⭐⭐</div></div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,60 Q360,90 720,60 Q1080,30 1440,60 L1440,0 Z" fill="#1E40AF"/></svg></div>
+
 </section>
 
 <!-- ===== PRICING ===== -->
@@ -771,7 +767,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <p class="anim anim-up" style="text-align:center;font-size:13px;color:var(--text-light);margin-top:24px">Sans engagement — Résiliez quand vous voulez</p>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,30 Q480,90 960,40 L1440,70 L1440,0 Z" fill="#FFFFFF"/></svg></div>
+
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
@@ -784,7 +780,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="testi anim anim-rotate" data-delay="2"><div class="testi-q">"</div><p class="testi-text">Envoyé mes infos lundi, site en ligne mercredi. Le support est incroyable, ils répondent en 5 min sur WhatsApp.</p><div class="testi-sep"></div><div class="testi-author"><div class="testi-av">TR</div><div><div class="testi-nm">Thomas R.</div><div class="testi-role">Coach sportif à Paris</div><div class="testi-stars">⭐⭐⭐⭐⭐</div></div></div></div>
         </div>
     </div>
-    <div class="wave-divider wave-fade"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,50 Q240,90 480,50 Q720,10 960,50 Q1200,90 1440,50 L1440,0 Z" fill="#FF6B35"/></svg></div>
+
 </section>
 
 <!-- ===== FAQ ===== -->
@@ -802,7 +798,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             </div>
         </div>
     </div>
-    <div class="wave-divider"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,70 Q720,0 1440,70 L1440,0 Z" fill="#F7FEE7"/></svg></div>
+
 </section>
 
 <!-- ===== TEAM ===== -->
@@ -815,7 +811,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <p class="team-quote anim anim-up">« On croit que chaque professionnel mérite un site à la hauteur de son talent. Pas dans 3 mois, pas pour 5 000€. Maintenant, et à un prix juste. »</p>
     </div>
-    <div class="wave-divider wave-fade"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,0 L0,45 C240,90 480,0 720,45 C960,90 1200,0 1440,45 L1440,0 Z" fill="#FFFFFF"/></svg></div>
+
 </section>
 
 <!-- ===== CTA ===== -->
