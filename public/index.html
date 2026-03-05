@@ -35,17 +35,17 @@ img,svg{max-width:100%;display:block}
 .section-spacing{padding:120px 0}
 
 /* ===== DOOR/GARAGE SCROLL EFFECT ===== */
-/* GARAGE (hero + every other section): sticky, stays in place, low z-index */
-/* The latest garage in DOM renders on top of earlier ones (natural stacking) */
-.garage-panel{position:sticky;top:0;z-index:1;min-height:100vh}
-/* DOOR: normal flow, scrolls naturally, high z-index covers garages */
-.door{position:relative;z-index:10;min-height:100vh;border-top-left-radius:24px;border-top-right-radius:24px;box-shadow:0 -10px 40px rgba(0,0,0,0.15);transition:transform 0.5s ease,filter 0.5s ease}
+/* Each .scene wraps a GARAGE (sticky) + DOOR (sticky, higher z-index). */
+/* Both stick at top:0. Door covers garage. When scene scrolls past, door leaves first, garage revealed. */
+.scene{position:relative}
+.garage-panel{position:sticky;top:0;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.door{position:sticky;top:0;z-index:10;min-height:100vh;display:flex;flex-direction:column;justify-content:center;border-top-left-radius:24px;border-top-right-radius:24px;box-shadow:0 -10px 40px rgba(0,0,0,0.15);transition:transform 0.5s ease,filter 0.5s ease}
 .door.leaving{transform:scale(0.97);filter:brightness(0.95)}
 @media(max-width:768px){.door{border-top-left-radius:16px;border-top-right-radius:16px}}
 
 /* ===== SECTION COLORS ===== */
 /* Hero - dégradé violet pâle → bleu pâle */
-.sec-hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#3730a3 100%)!important;color:#fff}
+.sec-hero{background:linear-gradient(135deg,#7C3AED 0%,#A855F7 40%,#EC4899 100%)!important;color:#fff}
 .sec-hero .badge{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25);color:#fff}
 .sec-hero h1{color:#fff}
 .sec-hero .hero-sub{color:rgba(255,255,255,0.85)}
@@ -182,8 +182,8 @@ img,svg{max-width:100%;display:block}
 .footer-styled .footer-social a:hover{border-color:var(--purple);background:rgba(124,58,237,0.08)}
 
 /* ===== CURSOR ===== */
-.cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,0.3);pointer-events:none;z-index:99999;transition:width 0.3s ease,height 0.3s ease,opacity 0.3s ease;transform:translate(-50%,-50%);will-change:transform,width,height,opacity;opacity:0.3}
-.cursor.hover{width:50px;height:50px;opacity:0.15}
+.cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.6);pointer-events:none;z-index:99999;transition:width 0.3s ease,height 0.3s ease,opacity 0.3s ease;transform:translate(-50%,-50%);will-change:transform,width,height,opacity;opacity:0.6}
+.cursor.hover{width:50px;height:50px;opacity:0.3}
 @media(max-width:768px){.cursor{display:none!important}}
 
 /* ===== GRADIENT TEXT ===== */
@@ -562,7 +562,8 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 </nav>
 
-<!-- ===== HERO (GARAGE - sticky, stays in place) ===== -->
+<!-- ===== SCENE 1: Hero (garage) + Process (door) ===== -->
+<div class="scene">
 <section class="hero garage-panel sec-hero" id="hero">
     <div class="hero-gradient" id="heroGrad"></div>
     <div class="particles" id="particles"></div>
@@ -587,37 +588,8 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <div class="hs"><span class="hs-num gt" data-target="24" data-suffix="/7">0</span><span class="hs-label">Support</span></div>
         </div>
 
-        <!-- Hero Bento -->
-        <div class="hero-bento">
-            <div class="hb-card card hb-1 anim anim-left" style="background:linear-gradient(135deg,#D97706,#F59E0B);position:relative">
-                <div class="mini-site inner-scroll" style="position:absolute;top:0;left:0;right:0">
-                    <div class="mn" style="background:rgba(0,0,0,0.3)"><span></span></div>
-                    <div class="mh" style="background:radial-gradient(ellipse,rgba(0,0,0,0.1),transparent)"><div class="l1"></div><div class="l2"></div><div class="mb" style="background:linear-gradient(135deg,#92400E,#D97706)"></div></div>
-                    <div class="mc"><div></div><div></div><div></div></div>
-                    <div class="ms"><div></div><div></div><div></div></div>
-                    <div class="mc"><div></div><div></div></div>
-                    <div class="ms"><div></div><div></div></div>
-                </div>
-                <div class="hb-overlay"><h3>La Table d'Or</h3><p>Restaurant gastronomique</p></div>
-                <div class="float-badge" style="top:12px;right:12px;animation-duration:3.5s">⭐ 4.9/5</div>
-            </div>
-            <div class="hb-card card anim anim-right" style="background:linear-gradient(135deg,#1a1a2e,#DC2626);position:relative">
-                <div class="mini-site" style="position:absolute;top:0;left:0;right:0">
-                    <div class="mn" style="background:rgba(0,0,0,0.4)"><span></span></div>
-                    <div class="mh"><div class="l1"></div><div class="l2"></div></div>
-                </div>
-                <div class="hb-overlay"><h3>Studio Ink</h3><p>Tatoueur</p></div>
-            </div>
-            <div class="hb-card card card-gradient hb-stat anim anim-scale">
-                <div class="num gt" data-target="50" data-suffix="+" style="-webkit-text-fill-color:#fff">0</div>
-                <div class="label">Sites livrés</div>
-            </div>
-        </div>
     </div>
-
 </section>
-
-<!-- ===== PROCESS (DOOR - scrolls up, covers hero, then leaves) ===== -->
 <section class="section-spacing door sec-process" id="process">
     <div class="container">
         <div class="sh">
@@ -635,8 +607,10 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 
 </section>
+</div><!-- /scene 1 -->
 
-<!-- ===== PORTFOLIO (GARAGE - sticky, revealed when Process leaves) ===== -->
+<!-- ===== SCENE 2: Portfolio (garage) + Services (door) ===== -->
+<div class="scene">
 <section class="section-spacing garage-panel sec-portfolio" id="portfolio">
     <div class="container"><div class="sh"><h2 class="anim anim-blur">Nos dernières <span class="gt">réalisations</span></h2><p class="anim anim-up">Chaque site est unique, conçu sur-mesure pour le métier de nos clients.</p></div></div>
     <div class="carousel-wrap">
@@ -673,8 +647,10 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 
 </section>
+</div><!-- /scene 2 -->
 
-<!-- ===== AVANT/APRÈS (GARAGE) ===== -->
+<!-- ===== SCENE 3: BA (garage) + Compare (door) ===== -->
+<div class="scene">
 <section class="section-spacing garage-panel sec-ba">
     <div class="container">
         <div class="ba-outer card-black anim anim-left">
@@ -717,8 +693,10 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 
 </section>
+</div><!-- /scene 3 -->
 
-<!-- ===== PRICING (GARAGE) ===== -->
+<!-- ===== SCENE 4: Pricing (garage) + Testi (door) ===== -->
+<div class="scene">
 <section class="section-spacing garage-panel sec-pricing" id="pricing">
     <div class="container">
         <div class="sh"><h2 class="anim anim-blur">Tarifs <span class="gt">transparents</span></h2><p class="anim anim-up">Pas de surprise, pas de frais cachés.</p></div>
@@ -760,8 +738,10 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 
 </section>
+</div><!-- /scene 4 -->
 
-<!-- ===== FAQ (GARAGE) ===== -->
+<!-- ===== SCENE 5: FAQ (garage) + Team (door) ===== -->
+<div class="scene">
 <section class="section-spacing garage-panel sec-faq" id="faq">
     <div class="container" style="max-width:800px">
         <div class="card anim anim-scale" style="padding:48px 40px">
@@ -791,8 +771,10 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
     </div>
 
 </section>
+</div><!-- /scene 5 -->
 
-<!-- ===== CTA (GARAGE - last section revealed) ===== -->
+<!-- ===== SCENE 6: CTA (garage, last section, no door) ===== -->
+<div class="scene">
 <section class="section-spacing garage-panel sec-cta" id="contact">
     <div class="container">
         <div class="cta-final anim anim-scale">
@@ -803,7 +785,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
     </div>
 </section>
-
+</div><!-- /scene 6 -->
 
 <!-- ===== FOOTER ===== -->
 <footer class="footer footer-styled" style="position:relative;z-index:15;background:#F9FAFB">
