@@ -541,73 +541,169 @@ img,svg{max-width:100%;display:block}
     .footer-bottom{flex-direction:column;text-align:center}.footer-legal{justify-content:center}
     .c-card{width:260px;height:180px}
 }
-/* ===== QUESTIONNAIRE MODAL ===== */
-.q-modal{position:fixed;inset:0;z-index:100000;background:#3B0764;display:none;flex-direction:column;overflow:hidden}
+/* ===== QUESTIONNAIRE MODAL — PREMIUM ===== */
+/* Keyframes scoped to questionnaire */
+@keyframes qBgDrift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes qParticle{0%{transform:translate(0,0);opacity:.08}50%{transform:translate(30px,-40px);opacity:.05}100%{transform:translate(-20px,20px);opacity:.08}}
+@keyframes qCheckPop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes qEmojiBounce{0%{transform:translateY(-30px);opacity:0}60%{transform:translateY(5px);opacity:1}80%{transform:translateY(-3px)}100%{transform:translateY(0)}}
+@keyframes qEmojiFloat{0%,100%{transform:translateY(-3px)}50%{transform:translateY(3px)}}
+@keyframes qCursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes qStaggerIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes qShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-10px)}80%{transform:translateX(10px)}}
+@keyframes qFlash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+@keyframes qGlowPulse{0%,100%{box-shadow:0 0 20px rgba(217,249,157,0.2)}50%{box-shadow:0 0 40px rgba(217,249,157,0.4)}}
+@keyframes qShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes qRipple{0%{transform:scale(0);opacity:.4}100%{transform:scale(4);opacity:0}}
+@keyframes qProgressPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+/* Modal background: dark + animated gradient + dot grid + particles */
+.q-modal{position:fixed;inset:0;z-index:100000;background:#1a1028;display:none;flex-direction:column;overflow:hidden}
 .q-modal.open{display:flex}
-.q-top{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.q-back{display:flex;align-items:center;gap:6px;font-size:14px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;font-family:inherit;padding:4px 8px}
-.q-back:hover{color:#fff}
+.q-modal .q-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(124,58,237,0.1),transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(255,142,196,0.05),transparent 50%);background-size:200% 200%;animation:qBgDrift 15s ease infinite;pointer-events:none;z-index:0}
+.q-modal .q-bg-dots{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;z-index:0}
+.q-modal .q-bg-particles{position:absolute;inset:0;pointer-events:none;z-index:0}
+.q-modal .q-ptc{position:absolute;width:3px;height:3px;border-radius:50%;opacity:.08;pointer-events:none}
+.q-modal .q-ptc:nth-child(1){background:#FF8EC4;top:15%;left:10%;animation:qParticle 12s ease-in-out infinite}
+.q-modal .q-ptc:nth-child(2){background:#D9F99D;top:70%;left:85%;animation:qParticle 14s ease-in-out infinite 2s}
+.q-modal .q-ptc:nth-child(3){background:#FF8EC4;top:40%;left:60%;animation:qParticle 10s ease-in-out infinite 4s}
+.q-modal .q-ptc:nth-child(4){background:#D9F99D;top:80%;left:25%;animation:qParticle 16s ease-in-out infinite 1s}
+.q-modal .q-ptc:nth-child(5){background:#FF8EC4;top:25%;left:75%;animation:qParticle 13s ease-in-out infinite 3s}
+.q-modal .q-ptc:nth-child(6){background:#D9F99D;top:55%;left:40%;animation:qParticle 11s ease-in-out infinite 5s}
+/* Parallax container for background elements */
+.q-modal .q-parallax{position:absolute;inset:-20px;pointer-events:none;z-index:0;transition:transform .3s ease-out}
+
+/* Top bar */
+.q-top{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.06);position:relative;z-index:2}
+.q-back{display:flex;align-items:center;gap:6px;font-size:15px;color:rgba(255,255,255,0.5);cursor:pointer;background:none;border:none;font-family:inherit;padding:4px 8px;transition:all .2s}
+.q-back:hover{color:#FF8EC4}
+.q-back .q-arrow{display:inline-block;transition:transform .2s}
+.q-back:hover .q-arrow{transform:translateX(-3px)}
+/* Progress bar */
 .q-progress{flex:1;max-width:300px;margin:0 24px}
-.q-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
-.q-bar-fill{height:100%;background:linear-gradient(90deg,#F472B6,#2DD4BF,#D9F99D);border-radius:4px;transition:width 0.4s ease;width:6%}
-.q-close{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:none;color:#fff;font-size:18px;cursor:pointer;transition:all 0.2s}
-.q-close:hover{background:rgba(255,255,255,0.1)}
-.q-body{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.q-step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;transform:translateX(60px);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);pointer-events:none}
-.q-step.q-active{opacity:1;transform:translateX(0);pointer-events:auto}
-.q-step.q-left{opacity:0;transform:translateX(-60px)}
-.q-step h2{font-size:clamp(24px,4vw,36px);font-weight:800;color:#D9F99D;margin-bottom:24px;text-align:center}
-/* Rainbow step titles: each step gets a different color */
-.q-step:nth-child(1) h2{color:#D9F99D}
-.q-step:nth-child(2) h2{color:#2DD4BF}
-.q-step:nth-child(3) h2{color:#F472B6}
-.q-step:nth-child(4) h2{color:#93C5FD}
-.q-step:nth-child(5) h2{color:#06D6A0}
-.q-step:nth-child(6) h2{color:#FFB4A2}
-.q-step:nth-child(7) h2{color:#D9F99D}
-.q-step:nth-child(8) h2{color:#2DD4BF}
-.q-step:nth-child(9) h2{color:#F472B6}
-.q-step:nth-child(10) h2{color:#93C5FD}
-.q-step:nth-child(11) h2{color:#06D6A0}
-.q-step:nth-child(12) h2{color:#FFB4A2}
-.q-step:nth-child(13) h2{color:#D9F99D}
-.q-step:nth-child(14) h2{color:#2DD4BF}
-.q-step:nth-child(15) h2{color:#F472B6}
-.q-step:nth-child(16) h2{color:#D9F99D}
-.q-step p.q-sub{font-size:15px;color:rgba(255,255,255,0.5);margin-bottom:20px;text-align:center}
-.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;max-width:700px;width:100%}
-.q-grid-2{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.q-grid-3{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-.q-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);color:#fff;font-size:15px;font-weight:500;position:relative;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.q-card:hover{transform:translateY(-2px);border-color:rgba(124,58,237,0.6);box-shadow:0 8px 30px rgba(124,58,237,0.25);background:rgba(255,255,255,0.08)}
-.q-card.selected{border-color:#F472B6;background:rgba(244,114,182,0.1);box-shadow:0 0 30px rgba(244,114,182,0.2)}
-.q-card.selected::after{content:'✓';position:absolute;top:10px;right:12px;width:22px;height:22px;background:#F472B6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700}
-.q-card .q-emoji{font-size:28px;margin-bottom:6px;display:block}
+.q-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:6px;overflow:hidden}
+.q-bar-fill{height:100%;background:linear-gradient(90deg,#FF8EC4,#D9F99D);border-radius:6px;transition:width .4s ease;width:6%;box-shadow:0 0 10px rgba(255,142,196,0.3)}
+/* Close button */
+.q-close{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);font-size:18px;cursor:pointer;transition:all .2s}
+.q-close:hover{background:rgba(255,255,255,0.1);color:#fff}
+
+/* Body */
+.q-body{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;z-index:1}
+
+/* Steps — blur transition */
+.q-step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;filter:blur(10px);transition:opacity .4s cubic-bezier(.16,1,.3,1),filter .4s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.q-step.q-active{opacity:1;filter:blur(0);pointer-events:auto}
+.q-step.q-left{opacity:0;filter:blur(5px)}
+
+/* Step emoji above title */
+.q-step-icon{font-size:64px;display:block;margin-bottom:10px;animation:qEmojiBounce .6s cubic-bezier(.34,1.56,.64,1) both}
+.q-step.q-active .q-step-icon{animation:qEmojiBounce .6s cubic-bezier(.34,1.56,.64,1) both,qEmojiFloat 3s ease-in-out .8s infinite}
+
+/* Step title — WHITE BOLD */
+.q-step h2{font-size:32px;font-weight:800;color:#FFFFFF;margin-bottom:8px;text-align:center}
+/* Typing cursor */
+.q-tcursor{display:inline-block;width:2px;height:.85em;background:#FF8EC4;margin-left:2px;vertical-align:text-bottom;animation:qCursorBlink .6s step-end infinite}
+
+/* Subtitle */
+.q-step p.q-sub{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:24px;text-align:center;max-width:500px}
+.q-step-label{font-size:14px;color:rgba(255,255,255,0.5);display:block;margin-bottom:4px;text-align:center}
+
+/* Grid — 3 columns desktop */
+.q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:750px;width:100%}
+.q-grid-2{grid-template-columns:repeat(3,1fr)}
+.q-grid-3{grid-template-columns:repeat(3,1fr)}
+
+/* Cards — emoji LEFT of text */
+.q-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 18px;text-align:left;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);color:#fff;font-size:15px;font-weight:500;position:relative;overflow:hidden;display:flex;align-items:center;gap:10px;will-change:transform}
+.q-card .q-emoji{font-size:28px;flex-shrink:0;transition:transform .2s;display:block;margin:0}
+.q-card:hover{transform:scale(1.03);border-color:rgba(255,255,255,0.16);box-shadow:0 8px 25px rgba(0,0,0,0.2);background:rgba(255,255,255,0.06)}
+.q-card:hover .q-emoji{transform:translateY(-3px)}
+
+/* Popular sectors highlighted */
+.q-card[data-value*="Restaurant"]{background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.15)}
+.q-card[data-value*="Restaurant"]:hover{border-color:rgba(255,107,53,0.3)}
+.q-card[data-value*="Coiffeur"]{background:rgba(255,142,196,0.08);border-color:rgba(255,142,196,0.15)}
+.q-card[data-value*="Coiffeur"]:hover{border-color:rgba(255,142,196,0.3)}
+.q-card[data-value*="Tatoueur"]{background:rgba(124,58,237,0.08);border-color:rgba(124,58,237,0.15)}
+.q-card[data-value*="Tatoueur"]:hover{border-color:rgba(124,58,237,0.3)}
+.q-card[data-value*="beauté"],.q-card[data-value*="Salon"]{background:rgba(217,249,157,0.08);border-color:rgba(217,249,157,0.15)}
+.q-card[data-value*="beauté"]:hover,.q-card[data-value*="Salon"]:hover{border-color:rgba(217,249,157,0.3)}
+
+/* Selected card */
+.q-card.selected{border:2px solid #FF8EC4!important;background:rgba(255,142,196,0.1)!important;box-shadow:0 0 25px rgba(255,142,196,0.15)}
+.q-card.selected::after{content:'✓';position:absolute;top:8px;right:10px;width:24px;height:24px;background:#FF8EC4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700;animation:qCheckPop .3s cubic-bezier(.34,1.56,.64,1) both}
+/* Morphing: unselected cards dim when one is selected */
+.q-step.q-has-sel .q-card:not(.selected){transform:scale(.95);opacity:.5;filter:blur(1px)}
+.q-step.q-has-sel .q-card.selected{transform:scale(1.05)}
+
+/* Stagger animation */
+.q-card.q-stag{opacity:0;transform:translateY(20px);animation:qStaggerIn .3s cubic-bezier(.16,1,.3,1) forwards}
+
+/* Ripple */
+.q-rpl{position:absolute;border-radius:50%;background:rgba(255,142,196,0.3);transform:scale(0);animation:qRipple .6s ease-out forwards;pointer-events:none;z-index:0}
+
+/* Price cards */
 .q-card .q-price{font-size:28px;font-weight:900;margin:6px 0 2px}
 .q-card .q-price-label{font-size:12px;color:rgba(255,255,255,0.5)}
 .q-card.q-recommended{border-color:rgba(124,58,237,0.4);position:relative}
-.q-card.q-recommended .q-rec-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gradient);color:#fff;padding:2px 12px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
-.q-input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 18px;font-size:16px;color:#fff;width:100%;max-width:400px;font-family:inherit;outline:none;transition:border-color 0.2s}
-.q-input:focus{border-color:#7C3AED}
-.q-input::placeholder{color:rgba(255,255,255,0.3)}
+.q-card.q-recommended .q-rec-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF8EC4,#D9F99D);color:#1a1028;padding:2px 12px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
+
+/* Inputs */
+.q-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;font-size:17px;color:#fff;width:100%;max-width:400px;font-family:inherit;outline:none;transition:all .2s}
+.q-input:focus{border-color:#FF8EC4;box-shadow:0 0 15px rgba(255,142,196,0.2)}
+.q-input::placeholder{color:rgba(255,255,255,0.25)}
 .q-textarea{min-height:80px;resize:vertical}
-.q-btn{background:#F472B6;color:#fff;padding:16px 36px;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:inherit;margin-top:16px;transition:all 0.3s;box-shadow:0 4px 20px rgba(244,114,182,0.3)}
-.q-btn:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(244,114,182,0.4)}
-.q-submit-btn{background:#D9F99D!important;color:#3B0764!important}
-.q-error{color:#EF4444;font-size:13px;margin-top:8px;min-height:18px}
-.q-contact-form{display:flex;flex-direction:column;gap:12px;max-width:400px;width:100%}
-.q-contact-form .q-input{max-width:100%}
-.q-style-card{min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.q-style-swatch{width:48px;height:32px;border-radius:8px;margin-bottom:2px}
-.q-confirm{text-align:center}
-.q-confirm h2{font-size:clamp(28px,5vw,44px);margin-bottom:16px}
-.q-confirm p{color:rgba(255,255,255,0.7);font-size:16px;line-height:1.7;max-width:500px}
-.q-step-label{font-size:12px;color:rgba(255,255,255,0.5);display:block;margin-bottom:4px;text-align:center}
-.q-count{font-size:13px;color:rgba(255,255,255,0.4);margin-top:8px;text-align:center}
-.q-color-dot.selected{border-color:#7C3AED!important;box-shadow:0 0 15px rgba(124,58,237,0.4);transform:scale(1.15)}
+.q-input.q-shake-it{animation:qShake .4s ease;border-color:#EF4444!important;box-shadow:0 0 15px rgba(239,68,68,0.3)!important}
 .q-input option{background:#1a1a1a;color:#fff}
 select.q-input{appearance:auto;-webkit-appearance:auto}
-@media(max-width:600px){.q-grid{grid-template-columns:1fr 1fr}.q-grid-2{grid-template-columns:1fr}.q-grid-3{grid-template-columns:1fr}.q-card{padding:14px}}
+
+/* Buttons */
+.q-btn{background:linear-gradient(135deg,#FF8EC4,#D9F99D);color:#1a1028;padding:16px 36px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:inherit;margin-top:16px;transition:all .3s;box-shadow:0 4px 20px rgba(255,142,196,0.3);position:relative;overflow:hidden}
+.q-btn:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(255,142,196,0.4)}
+.q-submit-btn{background:linear-gradient(135deg,#D9F99D,#06D6A0)!important;color:#1a1028!important;animation:qGlowPulse 2s ease-in-out infinite}
+.q-submit-btn:hover{box-shadow:0 0 50px rgba(217,249,157,0.5)!important}
+.q-error{color:#EF4444;font-size:13px;margin-top:8px;min-height:18px}
+
+/* Contact form */
+.q-contact-form{display:flex;flex-direction:column;gap:12px;max-width:400px;width:100%}
+.q-contact-form .q-input{max-width:100%}
+
+/* Style cards */
+.q-style-card{min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.q-style-swatch{width:48px;height:32px;border-radius:8px;margin-bottom:2px}
+
+/* Palette cards */
+.q-palette-card{flex-direction:column!important;text-align:center!important;align-items:center!important}
+
+/* Color dots */
+.q-color-dot{width:50px;height:50px;transition:all .2s}
+.q-color-dot:hover{transform:scale(1.15)}
+.q-color-dot.selected{border:3px solid #fff!important;box-shadow:0 0 15px currentColor;transform:scale(1.15)}
+
+/* Confirmation */
+.q-confirm{text-align:center}
+.q-confirm .q-conf-emoji{font-size:80px;display:block;margin-bottom:16px;animation:qEmojiBounce .8s cubic-bezier(.34,1.56,.64,1) both}
+.q-confirm h2{font-size:clamp(28px,5vw,44px);margin-bottom:16px;background:linear-gradient(90deg,#FF8EC4,#D9F99D,#FF8EC4);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:qShimmer 3s linear infinite}
+.q-confirm p{color:rgba(255,255,255,0.7);font-size:16px;line-height:1.7;max-width:500px}
+
+/* Count */
+.q-count{font-size:13px;color:rgba(255,255,255,0.4);margin-top:8px;text-align:center}
+
+/* Success flash bar */
+.q-flash{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#06D6A0,transparent);z-index:100002;opacity:0;animation:qFlash .5s ease forwards;pointer-events:none}
+
+/* Circular progress */
+.q-circ{position:fixed;bottom:24px;right:24px;width:50px;height:50px;z-index:100001;transition:transform .3s;display:none}
+.q-modal.open~.q-circ{display:block}
+.q-circ svg{width:50px;height:50px;transform:rotate(-90deg)}
+.q-circ circle{fill:none;stroke-width:3}
+.q-circ .q-circ-bg{stroke:rgba(255,255,255,0.05)}
+.q-circ .q-circ-fill{stroke:url(#qCircGrad);stroke-linecap:round;transition:stroke-dashoffset .4s ease}
+.q-circ .q-circ-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7)}
+
+/* Responsive */
+@media(max-width:900px){.q-grid,.q-grid-2,.q-grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.q-grid,.q-grid-2,.q-grid-3{grid-template-columns:1fr 1fr}.q-card{padding:14px}.q-step h2{font-size:24px}.q-step-icon{font-size:48px}}
 
 /* ===== SPLIT REVEAL (content deploys from sides) ===== */
 /* IMPORTANT: no position:relative here — .garage needs position:absolute */
@@ -961,71 +1057,85 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 
 <!-- ===== QUESTIONNAIRE MODAL (15 steps) ===== -->
 <div class="q-modal" id="quizModal">
+    <!-- BG layers inside modal only -->
+    <div class="q-parallax">
+        <div class="q-bg-gradient"></div>
+        <div class="q-bg-dots"></div>
+        <div class="q-bg-particles"><div class="q-ptc"></div><div class="q-ptc"></div><div class="q-ptc"></div><div class="q-ptc"></div><div class="q-ptc"></div><div class="q-ptc"></div></div>
+    </div>
     <div class="q-top">
-        <button class="q-back" style="display:none">← Retour</button>
+        <button class="q-back" style="display:none"><span class="q-arrow">&larr;</span> Retour</button>
         <div class="q-progress"><span class="q-step-label">Étape 1/15</span><div class="q-bar"><div class="q-bar-fill"></div></div></div>
-        <button class="q-close">✕</button>
+        <button class="q-close">&#x2715;</button>
     </div>
     <div class="q-body">
         <!-- 1: Type de projet -->
         <div class="q-step q-active" data-step="type_projet">
+            <span class="q-step-icon">💻</span>
             <h2>Quel type de site recherchez-vous ?</h2>
-            <div class="q-grid q-grid-2" style="max-width:700px">
-                <div class="q-card q-auto" data-key="type_projet" data-value="Site vitrine">Site vitrine</div>
-                <div class="q-card q-auto" data-key="type_projet" data-value="Site e-commerce">Site e-commerce</div>
-                <div class="q-card q-auto" data-key="type_projet" data-value="Portfolio">Portfolio</div>
-                <div class="q-card q-auto" data-key="type_projet" data-value="Site de réservation">Site de réservation</div>
-                <div class="q-card q-auto" data-key="type_projet" data-value="Landing page">Landing page</div>
-                <div class="q-card q-auto" data-key="type_projet" data-value="Blog / Magazine">Blog / Magazine</div>
-                <div class="q-card q-other-trigger" data-key="type_projet">Autre</div>
+            <p class="q-sub">Ça nous aide à choisir le meilleur format pour vous.</p>
+            <div class="q-grid q-grid-2" style="max-width:750px">
+                <div class="q-card q-auto" data-key="type_projet" data-value="Site vitrine"><span class="q-emoji">🌐</span> Site vitrine</div>
+                <div class="q-card q-auto" data-key="type_projet" data-value="Site e-commerce"><span class="q-emoji">🛒</span> Site e-commerce</div>
+                <div class="q-card q-auto" data-key="type_projet" data-value="Portfolio"><span class="q-emoji">🎨</span> Portfolio</div>
+                <div class="q-card q-auto" data-key="type_projet" data-value="Site de réservation"><span class="q-emoji">📅</span> Site de réservation</div>
+                <div class="q-card q-auto" data-key="type_projet" data-value="Landing page"><span class="q-emoji">🚀</span> Landing page</div>
+                <div class="q-card q-auto" data-key="type_projet" data-value="Blog / Magazine"><span class="q-emoji">📝</span> Blog / Magazine</div>
+                <div class="q-card q-other-trigger" data-key="type_projet"><span class="q-emoji">✏️</span> Autre</div>
             </div>
             <input class="q-input q-other-input" type="text" placeholder="Précisez..." style="display:none;margin-top:12px">
-            <button class="q-btn q-other-continue" style="display:none">Continuer →</button>
+            <button class="q-btn q-other-continue" style="display:none">Continuer &rarr;</button>
         </div>
         <!-- 2: Secteur -->
         <div class="q-step" data-step="secteur">
+            <span class="q-step-icon">💼</span>
             <h2>Dans quel domaine travaillez-vous ?</h2>
-            <div class="q-grid" style="max-width:750px;max-height:55vh;overflow-y:auto;padding-right:8px">
-                <div class="q-card q-auto" data-key="secteur" data-value="Restaurant / Bar / Café">Restaurant / Bar</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Coiffeur / Barbier">Coiffeur / Barbier</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Tatoueur / Pierceur">Tatoueur</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Salon de beauté">Beauté / Esthétique</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Coach sportif">Coach / Salle de sport</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Yoga / Bien-être">Yoga / Bien-être</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Location / Immobilier">Location / Immobilier</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Wedding Planner">Wedding Planner</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Artisan / BTP">Artisan / BTP</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Photographe / Vidéaste">Photographe</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Musicien / DJ">Musicien / DJ</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Consultant / Freelance">Consultant</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Santé / Thérapeute">Santé / Thérapeute</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Formation / Coaching">Formation / Cours</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Boutique / Commerce">Boutique / Commerce</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Auto / Moto / Garage">Auto / Garage</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Animaux / Vétérinaire">Animaux / Véto</div>
-                <div class="q-card q-auto" data-key="secteur" data-value="Agence / Startup / Tech">Agence / Tech</div>
-                <div class="q-card q-other-trigger" data-key="secteur">Autre</div>
+            <p class="q-sub">Ça nous aide à créer un site parfaitement adapté à votre métier.</p>
+            <div class="q-grid" style="max-width:750px;max-height:50vh;overflow-y:auto;padding-right:8px">
+                <div class="q-card q-auto" data-key="secteur" data-value="Restaurant / Bar / Café"><span class="q-emoji">🍽️</span> Restaurant / Bar</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Coiffeur / Barbier"><span class="q-emoji">✂️</span> Coiffeur / Barbier</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Tatoueur / Pierceur"><span class="q-emoji">🎨</span> Tatoueur</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Salon de beauté"><span class="q-emoji">💅</span> Beauté / Esthétique</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Coach sportif"><span class="q-emoji">🏋️</span> Coach / Salle de sport</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Yoga / Bien-être"><span class="q-emoji">🧘</span> Yoga / Bien-être</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Location / Immobilier"><span class="q-emoji">🏡</span> Location / Immobilier</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Wedding Planner"><span class="q-emoji">💒</span> Wedding Planner</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Artisan / BTP"><span class="q-emoji">🔧</span> Artisan / BTP</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Photographe / Vidéaste"><span class="q-emoji">📸</span> Photographe</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Musicien / DJ"><span class="q-emoji">🎵</span> Musicien / DJ</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Consultant / Freelance"><span class="q-emoji">👔</span> Consultant</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Santé / Thérapeute"><span class="q-emoji">🏥</span> Santé / Thérapeute</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Formation / Coaching"><span class="q-emoji">🎓</span> Formation / Cours</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Boutique / Commerce"><span class="q-emoji">🛍️</span> Boutique / Commerce</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Auto / Moto / Garage"><span class="q-emoji">🚗</span> Auto / Garage</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Animaux / Vétérinaire"><span class="q-emoji">🐕</span> Animaux / Véto</div>
+                <div class="q-card q-auto" data-key="secteur" data-value="Agence / Startup / Tech"><span class="q-emoji">💻</span> Agence / Tech</div>
+                <div class="q-card q-other-trigger" data-key="secteur"><span class="q-emoji">✏️</span> Autre</div>
             </div>
             <input class="q-input q-other-input" type="text" placeholder="Précisez votre secteur..." style="display:none;margin-top:12px">
-            <button class="q-btn q-other-continue" style="display:none">Continuer →</button>
+            <button class="q-btn q-other-continue" style="display:none">Continuer &rarr;</button>
         </div>
         <!-- 3: Nom entreprise -->
         <div class="q-step" data-step="entreprise">
+            <span class="q-step-icon">🏢</span>
             <h2>Comment s'appelle votre entreprise ?</h2>
             <p class="q-sub">Si vous n'avez pas encore de nom, écrivez votre nom/prénom.</p>
-            <input class="q-input q-text-input" data-key="entreprise" type="text" placeholder="Ex: La Table d'Or, Studio Ink, Belle & Zen...">
-            <button class="q-btn q-text-btn">Continuer →</button>
+            <input class="q-input q-text-input" data-key="entreprise" type="text" placeholder="Ex: La Table d'Or, Studio Ink, Belle &amp; Zen...">
+            <button class="q-btn q-text-btn">Continuer &rarr;</button>
         </div>
         <!-- 4: Localisation -->
         <div class="q-step" data-step="localisation">
+            <span class="q-step-icon">📍</span>
             <h2>Où êtes-vous situé ?</h2>
             <p class="q-sub">Pour optimiser votre référencement local sur Google.</p>
             <input class="q-input q-text-input" data-key="localisation" type="text" placeholder="Ex: Lyon, Paris 11ème, Bordeaux centre...">
-            <button class="q-btn q-text-btn">Continuer →</button>
+            <button class="q-btn q-text-btn">Continuer &rarr;</button>
         </div>
         <!-- 5: Situation actuelle -->
         <div class="q-step" data-step="situation">
+            <span class="q-step-icon">📊</span>
             <h2>Quelle est votre situation actuelle ?</h2>
+            <p class="q-sub">Pour adapter notre approche à votre point de départ.</p>
             <div class="q-grid q-grid-2" style="max-width:650px">
                 <div class="q-card q-auto" data-key="situation" data-value="Aucun site, c'est mon premier">Aucun site, c'est mon premier</div>
                 <div class="q-card q-auto" data-key="situation" data-value="Site ancien et moche">J'ai un site très ancien et moche</div>
@@ -1036,6 +1146,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 6: Objectif principal -->
         <div class="q-step" data-step="objectifs">
+            <span class="q-step-icon">🎯</span>
             <h2>Quel est votre objectif principal ?</h2>
             <p class="q-sub">Sélectionnez tout ce qui s'applique</p>
             <div class="q-grid q-grid-2" style="max-width:700px">
@@ -1054,6 +1165,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 7: Pages souhaitées -->
         <div class="q-step" data-step="pages">
+            <span class="q-step-icon">📄</span>
             <h2>Quelles pages voulez-vous ?</h2>
             <p class="q-sub">Sélectionnez tout ce qui vous intéresse</p>
             <div class="q-grid q-grid-2" style="max-width:700px;max-height:45vh;overflow-y:auto;padding-right:8px">
@@ -1077,7 +1189,9 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 8: Fonctionnalités -->
         <div class="q-step" data-step="fonctionnalites">
+            <span class="q-step-icon">⚙️</span>
             <h2>Quelles fonctionnalités voulez-vous ?</h2>
+            <p class="q-sub">On intégrera tout ça dans votre site.</p>
             <div class="q-grid q-grid-2" style="max-width:700px;max-height:45vh;overflow-y:auto;padding-right:8px">
                 <div class="q-card q-multi" data-key="fonctionnalites" data-value="Formulaire contact">Formulaire de contact</div>
                 <div class="q-card q-multi" data-key="fonctionnalites" data-value="RDV en ligne">Prise de rendez-vous</div>
@@ -1099,7 +1213,9 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 9: Style visuel -->
         <div class="q-step" data-step="style">
+            <span class="q-step-icon">🎨</span>
             <h2>Quel style visuel vous plaît ?</h2>
+            <p class="q-sub">On adaptera le design à votre goût.</p>
             <div class="q-grid" style="max-width:650px;grid-template-columns:repeat(2,1fr)">
                 <div class="q-card q-style-card q-auto" data-key="style" data-value="Moderne & Minimaliste"><div class="q-style-swatch" style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.2)"></div><strong>Moderne &amp; Minimaliste</strong><small style="color:rgba(255,255,255,0.4)">Apple, Airbnb, Tesla</small></div>
                 <div class="q-card q-style-card q-auto" data-key="style" data-value="Coloré & Vibrant"><div class="q-style-swatch" style="background:linear-gradient(135deg,#EC4899,#F59E0B)"></div><strong>Coloré &amp; Vibrant</strong><small style="color:rgba(255,255,255,0.4)">Spotify, Slack, Mailchimp</small></div>
@@ -1109,6 +1225,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 10: Palettes de couleurs -->
         <div class="q-step" data-step="couleurs">
+            <span class="q-step-icon">🌈</span>
             <h2>Quelle palette vous correspond ?</h2>
             <p class="q-sub">Choisissez une palette ou entrez vos propres couleurs.</p>
             <div class="q-grid" style="max-width:750px;grid-template-columns:repeat(2,1fr);gap:14px">
@@ -1152,7 +1269,9 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 11: Contenus disponibles -->
         <div class="q-step" data-step="contenus_dispo">
+            <span class="q-step-icon">📦</span>
             <h2>Quels contenus avez-vous déjà prêts ?</h2>
+            <p class="q-sub">On s'adapte à ce que vous avez.</p>
             <div class="q-grid q-grid-2" style="max-width:650px">
                 <div class="q-card q-multi" data-key="contenus_dispo" data-value="Logo pro">J'ai un logo professionnel</div>
                 <div class="q-card q-multi" data-key="contenus_dispo" data-value="Photos pro">Photos professionnelles</div>
@@ -1167,6 +1286,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 12: Photos & Médias -->
         <div class="q-step" data-step="photos">
+            <span class="q-step-icon">📸</span>
             <h2>Avez-vous des photos à nous envoyer ?</h2>
             <p class="q-sub">Photos de vos produits, locaux, équipe, réalisations... Plus on a de matière, plus le site sera beau.</p>
             <div class="q-grid q-grid-2" style="max-width:650px">
@@ -1179,6 +1299,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 13: Infos produits (pour e-commerce) -->
         <div class="q-step" data-step="produits">
+            <span class="q-step-icon">🛍️</span>
             <h2>Parlez-nous de vos produits / services</h2>
             <p class="q-sub">Plus on en sait, plus on ira vite. Remplissez ce que vous pouvez.</p>
             <div style="display:flex;flex-direction:column;gap:12px;max-width:500px;width:100%">
@@ -1190,6 +1311,7 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
         </div>
         <!-- 14: Inspiration -->
         <div class="q-step" data-step="inspiration">
+            <span class="q-step-icon">✨</span>
             <h2>Avez-vous des sites qui vous inspirent ?</h2>
             <p class="q-sub">Collez les liens de 1 à 3 sites dont le style vous plaît. Pas obligatoire.</p>
             <div style="display:flex;flex-direction:column;gap:10px;max-width:450px;width:100%">
@@ -1199,9 +1321,11 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             </div>
             <button class="q-btn q-inspi-btn">Continuer →</button>
         </div>
-        <!-- 13: Délai -->
+        <!-- 15: Délai -->
         <div class="q-step" data-step="delai">
+            <span class="q-step-icon">⏰</span>
             <h2>Pour quand voulez-vous votre site ?</h2>
+            <p class="q-sub">On fait tout pour respecter vos délais.</p>
             <div class="q-grid q-grid-2" style="max-width:600px">
                 <div class="q-card q-auto" data-key="delai" data-value="48h — Le plus vite possible">Le plus vite possible (48h)</div>
                 <div class="q-card q-auto" data-key="delai" data-value="Dans la semaine">Dans la semaine</div>
@@ -1212,9 +1336,11 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
             <input class="q-input q-other-input" type="text" placeholder="Ex: 15 mars 2026" style="display:none;margin-top:12px">
             <button class="q-btn q-other-continue" style="display:none">Continuer →</button>
         </div>
-        <!-- 14: Forfait -->
+        <!-- 16: Forfait -->
         <div class="q-step" data-step="forfait">
+            <span class="q-step-icon">💎</span>
             <h2>Quel forfait vous intéresse ?</h2>
+            <p class="q-sub">Sans engagement — choisissez votre formule.</p>
             <div class="q-grid" style="max-width:750px;grid-template-columns:repeat(2,1fr)">
                 <div class="q-card q-auto" data-key="forfait" data-value="Essentiel 149€/mois"><div class="q-price">149€</div><div class="q-price-label">/mois</div><strong>Essentiel</strong><small style="color:rgba(255,255,255,0.4);display:block;margin-top:4px;font-size:11px">Site vitrine, responsive, hébergement, SSL, support email</small></div>
                 <div class="q-card q-auto q-recommended" data-key="forfait" data-value="Pro 199€/mois"><div class="q-rec-badge">RECOMMAND&Eacute;</div><div class="q-price">199€</div><div class="q-price-label">/mois</div><strong>Pro</strong><small style="color:rgba(255,255,255,0.4);display:block;margin-top:4px;font-size:11px">+ domaine, SEO, modifs illimitées, WhatsApp 7j/7</small></div>
@@ -1222,9 +1348,11 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
                 <div class="q-card q-auto" data-key="forfait" data-value="Je sais pas encore">Je sais pas, conseillez-moi</div>
             </div>
         </div>
-        <!-- 15: Coordonnées -->
+        <!-- 17: Coordonnées -->
         <div class="q-step" data-step="coordonnees">
+            <span class="q-step-icon">📱</span>
             <h2>Dernière étape ! Comment on vous contacte ?</h2>
+            <p class="q-sub">Plus qu'une étape et c'est fini !</p>
             <div class="q-contact-form">
                 <div style="display:flex;gap:12px"><input class="q-input" name="prenom" type="text" placeholder="Prénom *" required style="flex:1"><input class="q-input" name="nom" type="text" placeholder="Nom *" required style="flex:1"></div>
                 <input class="q-input" name="email" type="email" placeholder="votre@email.com *" required>
@@ -1240,19 +1368,29 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
                 </select>
                 <textarea class="q-input q-textarea" name="message" placeholder="Décrivez votre projet en quelques mots, vos attentes, vos contraintes..."></textarea>
                 <div class="q-error"></div>
-                <button class="q-btn q-submit-btn">Envoyer ma demande</button>
+                <button class="q-btn q-submit-btn">Envoyer ma demande 🚀</button>
             </div>
         </div>
-        <!-- 16: Confirmation -->
+        <!-- 18: Confirmation -->
         <div class="q-step" data-step="confirmation">
             <div class="q-confirm">
+                <span class="q-conf-emoji">🎉</span>
                 <h2>Demande envoyée avec succès !</h2>
                 <p>Merci <strong class="q-confirm-name"></strong> ! Notre équipe a bien reçu votre demande. Vous recevrez une maquette gratuite de votre futur site sous 24h. On vous contacte très vite par WhatsApp ou email.</p>
-                <div class="q-recap" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px;margin:20px auto;max-width:400px;text-align:left;font-size:14px;color:rgba(255,255,255,0.7)"></div>
+                <div class="q-recap" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px;margin:20px auto;max-width:400px;text-align:left;font-size:14px;color:rgba(255,255,255,0.7)"></div>
                 <button class="q-btn q-confirm-close" style="margin-top:16px">Fermer</button>
             </div>
         </div>
     </div>
+</div>
+<!-- Circular progress for questionnaire -->
+<div class="q-circ" id="qCirc">
+    <svg viewBox="0 0 50 50">
+        <defs><linearGradient id="qCircGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF8EC4"/><stop offset="100%" stop-color="#D9F99D"/></linearGradient></defs>
+        <circle class="q-circ-bg" cx="25" cy="25" r="22"/>
+        <circle class="q-circ-fill" cx="25" cy="25" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"/>
+    </svg>
+    <div class="q-circ-txt">0%</div>
 </div>
 
 <script>
@@ -1491,44 +1629,134 @@ if(heroSplit){
         c.style.backgroundClip='text';
     });
 }
-/* ===== QUESTIONNAIRE MODAL (15 steps) ===== */
+/* ===== QUESTIONNAIRE MODAL (15 steps) — PREMIUM ===== */
 const qModal=document.getElementById('quizModal');
 const qSteps=qModal.querySelectorAll('.q-step');
 const qBar=qModal.querySelector('.q-bar-fill');
 const qBackBtn=qModal.querySelector('.q-back');
 const qStepLabel=qModal.querySelector('.q-step-label');
+const qCircEl=document.getElementById('qCirc');
+const qCircFill=qCircEl?.querySelector('.q-circ-fill');
+const qCircTxt=qCircEl?.querySelector('.q-circ-txt');
+const qParallax=qModal.querySelector('.q-parallax');
 let qCurrent=0;
 const qData={};
 const totalSteps=17;
 
-function qShow(){qModal.classList.add('open');document.body.style.overflow='hidden';qGoTo(0)}
-function qHide(){qModal.classList.remove('open');document.body.style.overflow=''}
+/* --- Typing effect on titles --- */
+function qTypeTitle(stepEl){
+    const h2=stepEl.querySelector('h2');
+    if(!h2||h2.dataset.typed)return;
+    const full=h2.textContent;
+    h2.dataset.typed='1';
+    h2.textContent='';
+    const cur=document.createElement('span');
+    cur.className='q-tcursor';cur.textContent='|';
+    h2.appendChild(cur);
+    let i=0;
+    function t(){
+        if(i<full.length){h2.insertBefore(document.createTextNode(full[i]),cur);i++;setTimeout(t,40)}
+        else{let b=0;const iv=setInterval(()=>{cur.style.opacity=cur.style.opacity==='0'?'1':'0';b++;if(b>=6){clearInterval(iv);cur.remove()}},300)}
+    }
+    t();
+}
+
+/* --- Stagger cards animation --- */
+function qStagger(stepEl){
+    const cards=stepEl.querySelectorAll('.q-card');
+    cards.forEach((c,i)=>{c.classList.remove('q-stag');void c.offsetWidth;c.classList.add('q-stag');c.style.animationDelay=(i*50)+'ms'});
+}
+
+/* --- Success flash --- */
+function qFlash(){
+    const f=document.createElement('div');f.className='q-flash';document.body.appendChild(f);setTimeout(()=>f.remove(),600);
+}
+
+/* --- Update circular progress --- */
+function qUpdCirc(n){
+    if(!qCircEl)return;
+    const pct=Math.round(((n+1)/totalSteps)*100);
+    const circ=2*Math.PI*22;
+    qCircFill.style.strokeDashoffset=circ-(pct/100*circ);
+    qCircTxt.textContent=pct+'%';
+    qCircEl.style.transform='scale(1.1)';setTimeout(()=>{qCircEl.style.transform='scale(1)'},200);
+}
+
+/* --- Ripple on click --- */
+function qRipple(e,el){
+    const r=document.createElement('span');r.className='q-rpl';
+    const rect=el.getBoundingClientRect();const sz=Math.max(rect.width,rect.height)*2;
+    r.style.width=r.style.height=sz+'px';
+    r.style.left=(e.clientX-rect.left-sz/2)+'px';r.style.top=(e.clientY-rect.top-sz/2)+'px';
+    el.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+
+/* --- Core navigation --- */
+function qShow(){qModal.classList.add('open');document.body.style.overflow='hidden';if(qCircEl)qCircEl.style.display='block';qGoTo(0)}
+function qHide(){qModal.classList.remove('open');document.body.style.overflow='';if(qCircEl)qCircEl.style.display='none'}
 function qGoTo(n){
-    qSteps.forEach((s,i)=>{s.classList.remove('q-active','q-left');if(i<n)s.classList.add('q-left');if(i===n)s.classList.add('q-active')});
+    const prev=qCurrent;
+    qSteps.forEach((s,i)=>{
+        s.classList.remove('q-active','q-left','q-has-sel');
+        if(i<n)s.classList.add('q-left');
+        if(i===n){
+            s.classList.add('q-active');
+            /* Re-trigger emoji bounce */
+            const ico=s.querySelector('.q-step-icon');
+            if(ico){ico.style.animation='none';void ico.offsetWidth;ico.style.animation=''}
+            setTimeout(()=>qTypeTitle(s),100);
+            setTimeout(()=>qStagger(s),50);
+        }
+    });
     qCurrent=n;
     const pct=Math.min(((n+1)/totalSteps*100),100);
     qBar.style.width=pct+'%';
     qStepLabel.textContent=n<totalSteps?'Étape '+(n+1)+'/'+totalSteps:'Terminé !';
-    qBackBtn.style.display=n>0&&n<=totalSteps?'flex':'none';
-    if(n>=totalSteps){qBackBtn.style.display='none'}
+    qBackBtn.style.display=n>0&&n<totalSteps?'flex':'none';
+    qUpdCirc(n);
+    if(n>prev&&n>0&&n<totalSteps)qFlash();
 }
-function qNext(){if(qCurrent<=totalSteps)qGoTo(qCurrent+1)}
+function qNext(){if(qCurrent<totalSteps)qGoTo(qCurrent+1)}
 function qPrev(){if(qCurrent>0)qGoTo(qCurrent-1)}
 
-/* Generic: Auto-advance cards (single select) */
-qModal.querySelectorAll('.q-auto').forEach(c=>{
-    c.addEventListener('click',()=>{
-        const key=c.dataset.key;
-        c.closest('.q-step').querySelectorAll('.q-auto[data-key="'+key+'"]').forEach(x=>x.classList.remove('selected'));
-        c.classList.add('selected');
-        qData[key]=c.dataset.value;
-        setTimeout(qNext,300);
+/* --- Parallax + magnetic on mousemove (INSIDE modal only) --- */
+qModal.addEventListener('mousemove',e=>{
+    if(qParallax){
+        const cx=window.innerWidth/2,cy=window.innerHeight/2;
+        qParallax.style.transform='translate('+((e.clientX-cx)*-0.02)+'px,'+((e.clientY-cy)*-0.02)+'px)';
+    }
+    /* Magnetic snap on cards */
+    qModal.querySelectorAll('.q-step.q-active .q-card').forEach(card=>{
+        const r=card.getBoundingClientRect();
+        const ccx=r.left+r.width/2,ccy=r.top+r.height/2;
+        const d=Math.hypot(e.clientX-ccx,e.clientY-ccy);
+        if(d<150){
+            const dx=(e.clientX-ccx)*0.03,dy=(e.clientY-ccy)*0.03;
+            card.style.transform='translate('+dx+'px,'+dy+'px)'+(card.classList.contains('selected')?' scale(1.05)':'');
+        } else if(!card.classList.contains('selected')&&!card.closest('.q-has-sel')){
+            card.style.transform='';
+        }
     });
 });
 
-/* Generic: "Autre" trigger (shows text field) */
+/* --- Auto-advance cards (single select) --- */
+qModal.querySelectorAll('.q-auto').forEach(c=>{
+    c.addEventListener('click',e=>{
+        qRipple(e,c);
+        const key=c.dataset.key;
+        const step=c.closest('.q-step');
+        step.querySelectorAll('.q-auto[data-key="'+key+'"]').forEach(x=>x.classList.remove('selected'));
+        c.classList.add('selected');
+        step.classList.add('q-has-sel');
+        qData[key]=c.dataset.value;
+        setTimeout(qNext,400);
+    });
+});
+
+/* --- "Autre" trigger --- */
 qModal.querySelectorAll('.q-other-trigger').forEach(c=>{
-    c.addEventListener('click',()=>{
+    c.addEventListener('click',e=>{
+        qRipple(e,c);
         const step=c.closest('.q-step');
         const key=c.dataset.key;
         step.querySelectorAll('.q-auto[data-key="'+key+'"],.q-other-trigger[data-key="'+key+'"]').forEach(x=>x.classList.remove('selected'));
@@ -1541,42 +1769,47 @@ qModal.querySelectorAll('.q-other-trigger').forEach(c=>{
     });
 });
 qModal.querySelectorAll('.q-other-continue').forEach(btn=>{
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click',e=>{
+        qRipple(e,btn);
         const step=btn.closest('.q-step');
         const inp=step.querySelector('.q-other-input');
         const trigger=step.querySelector('.q-other-trigger');
         const key=trigger?trigger.dataset.key:'';
         if(inp&&inp.value.trim()){qData[key]=inp.value.trim();qNext()}
+        else if(inp){inp.classList.add('q-shake-it');setTimeout(()=>inp.classList.remove('q-shake-it'),500)}
     });
 });
 
-/* Generic: Multi-select cards */
+/* --- Multi-select cards --- */
 qModal.querySelectorAll('.q-multi').forEach(c=>{
-    c.addEventListener('click',()=>{
+    c.addEventListener('click',e=>{
+        qRipple(e,c);
         c.classList.toggle('selected');
         const key=c.dataset.key;
         const step=c.closest('.q-step')||c.closest('.q-body');
         const selected=step.querySelectorAll('.q-multi.selected[data-key="'+key+'"]');
         qData[key]=Array.from(selected).map(x=>x.dataset.value);
-        /* Update counter */
         const counter=step.querySelector('.q-count');
         if(counter){counter.textContent=selected.length?selected.length+' sélectionné(s)':''}
     });
 });
 qModal.querySelectorAll('.q-multi-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click',e=>{
+        qRipple(e,btn);
         const key=btn.dataset.key;
         if(qData[key]&&qData[key].length>0)qNext();
     });
 });
 
-/* Text inputs (entreprise, localisation) */
+/* --- Text inputs --- */
 qModal.querySelectorAll('.q-text-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click',e=>{
+        qRipple(e,btn);
         const step=btn.closest('.q-step');
         const inp=step.querySelector('.q-text-input');
         const key=inp.dataset.key;
         if(inp.value.trim()){qData[key]=inp.value.trim();qNext()}
+        else{inp.classList.add('q-shake-it');setTimeout(()=>inp.classList.remove('q-shake-it'),500)}
     });
 });
 qModal.querySelectorAll('.q-text-input').forEach(inp=>{
@@ -1585,15 +1818,17 @@ qModal.querySelectorAll('.q-text-input').forEach(inp=>{
     });
 });
 
-/* Inspiration step */
-qModal.querySelector('.q-inspi-btn')?.addEventListener('click',()=>{
+/* --- Inspiration step --- */
+qModal.querySelector('.q-inspi-btn')?.addEventListener('click',e=>{
+    qRipple(e,e.target);
     const inputs=qModal.querySelectorAll('.q-inspi-input');
     qData.inspiration=Array.from(inputs).map(i=>i.value.trim()).filter(Boolean);
     qNext();
 });
 
-/* Produits step */
-qModal.querySelector('.q-produits-btn')?.addEventListener('click',()=>{
+/* --- Produits step --- */
+qModal.querySelector('.q-produits-btn')?.addEventListener('click',e=>{
+    qRipple(e,e.target);
     const nb=qModal.querySelector('[data-key="nb_produits"]');
     const gp=qModal.querySelector('[data-key="gamme_prix"]');
     const det=qModal.querySelector('[data-key="details_produits"]');
@@ -1603,28 +1838,32 @@ qModal.querySelector('.q-produits-btn')?.addEventListener('click',()=>{
     qNext();
 });
 
-/* Submit */
-qModal.querySelector('.q-submit-btn')?.addEventListener('click',()=>{
+/* --- Submit --- */
+qModal.querySelector('.q-submit-btn')?.addEventListener('click',e=>{
+    qRipple(e,e.target);
     const f=qModal.querySelector('.q-contact-form');
     const prenom=f.querySelector('[name=prenom]').value.trim();
     const nom=f.querySelector('[name=nom]').value.trim();
     const email=f.querySelector('[name=email]').value.trim();
     const tel=f.querySelector('[name=telephone]').value.trim();
-    const ville=f.querySelector('[name=ville]').value.trim();
+    const ville=f.querySelector('[name=ville]')?.value.trim()||'';
     const source=f.querySelector('[name=source]').value;
     const msg=f.querySelector('[name=message]').value.trim();
-    if(!prenom||!nom||!email||!tel){f.querySelector('.q-error').textContent='Veuillez remplir les champs obligatoires.';return}
+    if(!prenom||!nom||!email||!tel){
+        f.querySelector('.q-error').textContent='Veuillez remplir les champs obligatoires.';
+        f.querySelectorAll('[required]').forEach(inp=>{
+            if(!inp.value.trim()){inp.classList.add('q-shake-it');setTimeout(()=>inp.classList.remove('q-shake-it'),500)}
+        });
+        return;
+    }
     qData.prenom=prenom;qData.nom=nom;qData.email=email;qData.telephone=tel;qData.ville=ville;qData.source=source;qData.message=msg;
-    /* Also grab custom color */
     const cc=qModal.querySelector('[data-key="couleur_custom"]');
     if(cc&&cc.value.trim())qData.couleur_custom=cc.value.trim();
-    /* Save */
     const saved=JSON.parse(localStorage.getItem('wb_leads')||'[]');
     saved.push({...qData,date:new Date().toISOString()});
     localStorage.setItem('wb_leads',JSON.stringify(saved));
     console.log('WebsiteBuild Lead:',JSON.parse(JSON.stringify(qData)));
     fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(qData)}).catch(()=>{});
-    /* Recap */
     const recap=qModal.querySelector('.q-recap');
     recap.innerHTML='<strong style="color:#fff">Récapitulatif :</strong><br>'+
         (qData.secteur?'Secteur : '+qData.secteur+'<br>':'')+
@@ -1635,31 +1874,31 @@ qModal.querySelector('.q-submit-btn')?.addEventListener('click',()=>{
     launchConfetti();
 });
 
-/* Confetti */
+/* --- Confetti (4s, 250 particles) --- */
 function launchConfetti(){
     const canvas=document.createElement('canvas');
     canvas.style.cssText='position:fixed;inset:0;z-index:100001;pointer-events:none';
     canvas.width=window.innerWidth;canvas.height=window.innerHeight;
     document.body.appendChild(canvas);
     const ctx=canvas.getContext('2d');
-    const colors=['#D9F99D','#2DD4BF','#F472B6','#93C5FD','#06D6A0','#FFB4A2'];
+    const colors=['#D9F99D','#2DD4BF','#F472B6','#93C5FD','#06D6A0','#FFB4A2','#FF8EC4'];
     const particles=[];
-    for(let i=0;i<150;i++){particles.push({x:Math.random()*canvas.width,y:-Math.random()*canvas.height*0.5,vx:(Math.random()-0.5)*8,vy:Math.random()*4+2,w:Math.random()*8+4,h:Math.random()*6+3,color:colors[Math.floor(Math.random()*colors.length)],rot:Math.random()*360,rotV:(Math.random()-0.5)*10,opacity:1})}
+    for(let i=0;i<250;i++){particles.push({x:Math.random()*canvas.width,y:-Math.random()*canvas.height*0.5,vx:(Math.random()-0.5)*10,vy:Math.random()*5+2,w:Math.random()*10+4,h:Math.random()*8+3,color:colors[Math.floor(Math.random()*colors.length)],rot:Math.random()*360,rotV:(Math.random()-0.5)*12,opacity:1})}
     let start=performance.now();
     function draw(t){
         const elapsed=t-start;ctx.clearRect(0,0,canvas.width,canvas.height);let alive=false;
-        particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.rot+=p.rotV;if(elapsed>2000)p.opacity=Math.max(0,p.opacity-0.02);if(p.opacity<=0)return;alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});
+        particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.rot+=p.rotV;if(elapsed>2500)p.opacity=Math.max(0,p.opacity-0.015);if(p.opacity<=0)return;alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});
         if(alive&&elapsed<4000)requestAnimationFrame(draw);else canvas.remove();
     }
     requestAnimationFrame(draw);
 }
 
-/* Close & back */
+/* --- Close & back --- */
 qModal.querySelector('.q-close')?.addEventListener('click',qHide);
 qModal.querySelector('.q-confirm-close')?.addEventListener('click',qHide);
 qBackBtn?.addEventListener('click',qPrev);
 
-/* Intercept CTA buttons */
+/* --- Intercept CTA buttons --- */
 document.querySelectorAll('a[href="#contact"],.nav-cta,a[href*="wa.me"]').forEach(btn=>{
     if(btn.closest('#quizModal'))return;
     btn.addEventListener('click',e=>{e.preventDefault();qShow()});
