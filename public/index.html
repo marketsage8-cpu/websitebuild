@@ -39,12 +39,12 @@ img,svg{max-width:100%;display:block}
 /* ===== DOOR/GARAGE SCROLL EFFECT ===== */
 /* GARAGES: position fixed, NEVER move, all stacked. JS toggles .active */
 .garages-layer{position:fixed;top:0;left:0;right:0;height:100vh;z-index:1;pointer-events:none}
-.garage{position:absolute;top:0;left:0;right:0;height:100vh;opacity:0;pointer-events:none;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;justify-content:flex-start}
+.garage{position:absolute;top:0;left:0;right:0;height:100vh;opacity:0;pointer-events:none;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;justify-content:flex-start;transition:opacity 0.6s ease}
 .garage.active{opacity:1;pointer-events:auto}
 /* DOORS: normal flow, scroll naturally over garages */
 .doors-layer{position:relative;z-index:10}
 .garage-view{height:100vh;pointer-events:none}
-.door{min-height:auto;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -10px 40px rgba(0,0,0,0.15);transition:filter 0.5s ease;position:relative;margin-top:-50px;padding-top:70px;padding-bottom:70px}
+.door{min-height:auto;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -10px 40px rgba(0,0,0,0.06);transition:filter 0.5s ease;position:relative;margin-top:-50px;padding-top:70px;padding-bottom:70px}
 .door::before{content:'';position:absolute;top:-49px;left:0;right:0;height:50px;background:inherit}
 .door::after{content:'';position:absolute;bottom:-49px;left:0;right:0;height:50px;background:inherit;z-index:2}
 /* Each door gets a unique irregular wave via nth-child */
@@ -59,13 +59,12 @@ img,svg{max-width:100%;display:block}
 .door:nth-of-type(4)::after{clip-path:url(#waveBot4)}
 .door:nth-of-type(5)::before{clip-path:url(#waveTop5)}
 .door:nth-of-type(5)::after{clip-path:url(#waveBot5)}
-.door.leaving{filter:brightness(0.92)}
+.door.leaving{filter:brightness(0.97)}
 
-/* ===== SECTION COLORS — 6-color vivid rainbow palette ===== */
-/* Palette: #D9F99D (lime), #2DD4BF (turquoise), #F472B6 (rose), #93C5FD (bleu clair), #06D6A0 (vert menthe), #FFB4A2 (pêche saumon) */
-/* Backgrounds: #3B0764 (violet nuit), #7C3AED (violet mat) */
+/* ===== SECTION COLORS — Light/white alternating palette ===== */
+/* Each section has a unique light bg so they are visually distinct */
 
-/* --- HERO: white background --- */
+/* --- HERO (garage 0): #FFFFFF white --- */
 .sec-hero{background:#FFFFFF!important;color:#1a1a1a}
 .sec-hero .badge{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.15);color:#7C3AED}
 .sec-hero h1{color:#1a1a1a;font-family:'Space Grotesk',system-ui,sans-serif}
@@ -89,154 +88,154 @@ img,svg{max-width:100%;display:block}
 .hs-sep{width:1px;height:28px;background:rgba(0,0,0,0.1)}
 @media(max-width:480px){.hero-stats{gap:8px}.hs{padding:0 12px}.hs-num{font-size:22px}.hs-sep{height:20px}}
 
-/* --- PROCESS (porte): dominant #2DD4BF (turquoise) --- */
-.sec-process{background:#7C3AED!important;color:#fff}
-.sec-process .sh h2{color:#2DD4BF}
-.sec-process .sh p{color:rgba(255,255,255,0.7)}
-.sec-process .gt{color:#2DD4BF;-webkit-text-fill-color:#2DD4BF;background:none}
-.sec-process .card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:rgba(255,255,255,0.15);color:#fff}
-.sec-process .process-card h3{color:#D9F99D}
-.sec-process .text-s{color:rgba(255,255,255,0.8)}
-.sec-process .p-num{color:#2DD4BF!important;-webkit-text-fill-color:#2DD4BF!important;opacity:0.15}
+/* --- PROCESS (door 1): #F8F7FF light lavender --- */
+.sec-process{background:#F8F7FF!important;color:#1a1a1a}
+.sec-process .sh h2{color:#1a1a1a}
+.sec-process .sh p{color:#6b7280}
+.sec-process .gt{color:#7C3AED;-webkit-text-fill-color:#7C3AED;background:none}
+.sec-process .card{background:#fff;border-color:rgba(124,58,237,0.1);color:#1a1a1a;box-shadow:0 4px 20px rgba(124,58,237,0.06)}
+.sec-process .process-card h3{color:#1a1a1a}
+.sec-process .text-s{color:#6b7280}
+.sec-process .p-num{color:#7C3AED!important;-webkit-text-fill-color:#7C3AED!important;opacity:0.12}
 
-/* --- PORTFOLIO (garage): dominant #F472B6 (rose vif) --- */
-.sec-portfolio{background:#3B0764!important;color:#fff}
-.sec-portfolio .sh h2{color:#fff}
-.sec-portfolio .sh p{color:rgba(255,255,255,0.6)}
-.sec-portfolio .gt{color:#F472B6;-webkit-text-fill-color:#F472B6;background:none}
-.sec-portfolio .c-badge{background:#F472B6!important;color:#fff!important;font-weight:700}
-.sec-portfolio .c-link{color:#fff;background:#F472B6;padding:4px 12px;border-radius:8px;font-size:12px}
+/* --- PORTFOLIO (garage 1): #FFFFFF white --- */
+.sec-portfolio{background:#FFFFFF!important;color:#1a1a1a}
+.sec-portfolio .sh h2{color:#1a1a1a}
+.sec-portfolio .sh p{color:#6b7280}
+.sec-portfolio .gt{color:#FF8EC4;-webkit-text-fill-color:#FF8EC4;background:none}
+.sec-portfolio .c-badge{background:#7C3AED!important;color:#fff!important;font-weight:700}
+.sec-portfolio .c-link{color:#fff;background:#FF8EC4;padding:4px 12px;border-radius:8px;font-size:12px}
 
-/* --- SERVICES (porte): dominant #06D6A0 (vert menthe) --- */
-.sec-services{background:#134E4A!important;color:#fff}
-.sec-services .sh h2{color:#06D6A0}
-.sec-services .sh p{color:rgba(255,255,255,0.7)}
-.sec-services .gt{color:#06D6A0;-webkit-text-fill-color:#06D6A0;background:none}
-.sec-services .svc{border:1px solid rgba(255,255,255,0.1)}
-.sec-services .svc:nth-child(odd){background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff}
-.sec-services .svc:nth-child(odd) h3{color:#06D6A0}
-.sec-services .svc:nth-child(odd) p{color:rgba(255,255,255,0.8)}
-.sec-services .svc:nth-child(even){background:#06D6A0;color:#134E4A;border-color:#06D6A0}
-.sec-services .svc:nth-child(even) h3{color:#134E4A}
-.sec-services .svc:nth-child(even) p{color:rgba(19,78,74,0.8)}
+/* --- SERVICES (door 2): #F0FDF4 light mint --- */
+.sec-services{background:#F0FDF4!important;color:#1a1a1a}
+.sec-services .sh h2{color:#1a1a1a}
+.sec-services .sh p{color:#6b7280}
+.sec-services .gt{color:#059669;-webkit-text-fill-color:#059669;background:none}
+.sec-services .svc{border:1px solid rgba(5,150,105,0.1)}
+.sec-services .svc:nth-child(odd){background:#fff;color:#1a1a1a}
+.sec-services .svc:nth-child(odd) h3{color:#1a1a1a}
+.sec-services .svc:nth-child(odd) p{color:#6b7280}
+.sec-services .svc:nth-child(even){background:#059669;color:#fff;border-color:#059669}
+.sec-services .svc:nth-child(even) h3{color:#fff}
+.sec-services .svc:nth-child(even) p{color:rgba(255,255,255,0.85)}
 
-/* --- BA (garage): dominant #93C5FD (bleu clair) --- */
-.sec-ba{background:#3B0764!important;color:#fff}
-.sec-ba .sh h2{color:#fff}
-.sec-ba .gt{color:#93C5FD;-webkit-text-fill-color:#93C5FD;background:none}
-.sec-ba .card-black{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)}
-.sec-ba .ba-checks{color:rgba(255,255,255,0.7)}
-.sec-ba .ba-checks span::before{color:#2DD4BF}
-.sec-ba .ba-label-b{background:#FFB4A2!important;color:#000!important;font-weight:700}
-.sec-ba .ba-label-a{background:#06D6A0!important;color:#000!important;font-weight:700}
+/* --- BA (garage 2): #FFF7ED light peach --- */
+.sec-ba{background:#FFF7ED!important;color:#1a1a1a}
+.sec-ba .sh h2{color:#1a1a1a}
+.sec-ba .gt{color:#EA580C;-webkit-text-fill-color:#EA580C;background:none}
+.sec-ba .card-black{background:#fff;border:1px solid rgba(0,0,0,0.08);color:#1a1a1a}
+.sec-ba .ba-checks{color:#6b7280}
+.sec-ba .ba-checks span::before{color:#059669}
+.sec-ba .ba-label-b{background:#EF4444!important;color:#fff!important;font-weight:700}
+.sec-ba .ba-label-a{background:#059669!important;color:#fff!important;font-weight:700}
 
-/* --- COMPARE (porte): dominant #D9F99D (lime) --- */
-.sec-compare{background:#EA580C!important;color:#fff}
-.sec-compare .sh h2{color:#fff}
-.sec-compare .sh p{color:rgba(255,255,255,0.8)}
-.sec-compare .gt{color:#fff;-webkit-text-fill-color:#fff;background:none}
-.sec-compare .cmp{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);color:#fff}
-.sec-compare .cmp-name{color:#fff}
-.sec-compare .cmp-row{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.1)}
-.sec-compare .cmp-row strong{color:#fff}
-.sec-compare .cmp.featured{background:#D9F99D!important;border:none!important;color:#3B0764}
-.sec-compare .cmp.featured .cmp-name{color:#3B0764}
-.sec-compare .cmp.featured .cmp-name.gt{-webkit-text-fill-color:#3B0764}
-.sec-compare .cmp.featured .cmp-row{color:rgba(59,7,100,0.6);border-color:rgba(59,7,100,0.1)}
-.sec-compare .cmp.featured .cmp-row strong{color:#3B0764}
-.sec-compare .cmp-badge{background:#3B0764!important;color:#D9F99D!important}
-.sec-compare .cmp-stars{color:rgba(255,255,255,0.4)}
-.sec-compare .cmp.featured .cmp-stars{color:#3B0764}
+/* --- COMPARE (door 3): #F5F3FF light violet --- */
+.sec-compare{background:#F5F3FF!important;color:#1a1a1a}
+.sec-compare .sh h2{color:#1a1a1a}
+.sec-compare .sh p{color:#6b7280}
+.sec-compare .gt{color:#7C3AED;-webkit-text-fill-color:#7C3AED;background:none}
+.sec-compare .cmp{background:#fff;border:1px solid rgba(0,0,0,0.08);color:#1a1a1a;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.sec-compare .cmp-name{color:#1a1a1a}
+.sec-compare .cmp-row{color:#6b7280;border-color:rgba(0,0,0,0.06)}
+.sec-compare .cmp-row strong{color:#1a1a1a}
+.sec-compare .cmp.featured{background:#7C3AED!important;border:none!important;color:#fff}
+.sec-compare .cmp.featured .cmp-name{color:#fff}
+.sec-compare .cmp.featured .cmp-name.gt{-webkit-text-fill-color:#fff}
+.sec-compare .cmp.featured .cmp-row{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15)}
+.sec-compare .cmp.featured .cmp-row strong{color:#fff}
+.sec-compare .cmp-badge{background:#FF8EC4!important;color:#fff!important}
+.sec-compare .cmp-stars{color:#9ca3af}
+.sec-compare .cmp.featured .cmp-stars{color:rgba(255,255,255,0.8)}
 
-/* --- PRICING (garage): dominant #FFB4A2 (pêche saumon) --- */
-.sec-pricing{background:#3B0764!important;color:#fff}
-.sec-pricing .sh h2{color:#fff}
-.sec-pricing .sh p{color:rgba(255,255,255,0.6)}
-.sec-pricing .gt{color:#FFB4A2;-webkit-text-fill-color:#FFB4A2;background:none}
-.sec-pricing .card{background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:rgba(255,255,255,0.1);color:#fff}
-.sec-pricing .price-name{color:#fff}
-.sec-pricing .price-amount{color:#FFB4A2}
-.sec-pricing .price-desc{color:rgba(255,255,255,0.6)}
-.sec-pricing .price-period{color:rgba(255,255,255,0.6)}
-.sec-pricing .price-features li{color:rgba(255,255,255,0.8)}
-.sec-pricing .price-features li::before{color:#2DD4BF}
-.sec-pricing .btn-secondary{border-color:rgba(255,255,255,0.2);color:#fff}
-.sec-pricing .btn-secondary:hover{border-color:#fff;color:#fff}
-.sec-pricing .card-gradient{background:#FFB4A2!important;color:#3B0764;transform:scale(1.05)}
-.sec-pricing .card-gradient .price-name{color:#3B0764}
-.sec-pricing .card-gradient .price-amount{color:#3B0764}
-.sec-pricing .card-gradient .price-desc,.sec-pricing .card-gradient .price-period{color:rgba(59,7,100,0.6)}
-.sec-pricing .card-gradient .price-features li{color:rgba(59,7,100,0.8)}
-.sec-pricing .card-gradient .price-features li::before{color:#3B0764}
-.sec-pricing .price-badge{background:#F472B6!important;color:#fff!important}
-.sec-pricing .card-gradient .btn-white{background:#3B0764!important;color:#FFB4A2!important}
-.sec-pricing .price-note{color:#2DD4BF}
-.sec-pricing > .container > p{color:rgba(255,255,255,0.4)!important}
+/* --- PRICING (garage 3): #FFFFFF white --- */
+.sec-pricing{background:#FFFFFF!important;color:#1a1a1a}
+.sec-pricing .sh h2{color:#1a1a1a}
+.sec-pricing .sh p{color:#6b7280}
+.sec-pricing .gt{color:#7C3AED;-webkit-text-fill-color:#7C3AED;background:none}
+.sec-pricing .card{background:#F8F7FF;border-color:rgba(124,58,237,0.1);color:#1a1a1a;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.sec-pricing .price-name{color:#1a1a1a}
+.sec-pricing .price-amount{color:#7C3AED}
+.sec-pricing .price-desc{color:#6b7280}
+.sec-pricing .price-period{color:#6b7280}
+.sec-pricing .price-features li{color:#4a4a5a}
+.sec-pricing .price-features li::before{color:#059669}
+.sec-pricing .btn-secondary{border-color:rgba(0,0,0,0.15);color:#1a1a1a}
+.sec-pricing .btn-secondary:hover{border-color:#7C3AED;color:#7C3AED}
+.sec-pricing .card-gradient{background:#7C3AED!important;color:#fff;transform:scale(1.05)}
+.sec-pricing .card-gradient .price-name{color:#fff}
+.sec-pricing .card-gradient .price-amount{color:#fff}
+.sec-pricing .card-gradient .price-desc,.sec-pricing .card-gradient .price-period{color:rgba(255,255,255,0.7)}
+.sec-pricing .card-gradient .price-features li{color:rgba(255,255,255,0.9)}
+.sec-pricing .card-gradient .price-features li::before{color:#D9F99D}
+.sec-pricing .price-badge{background:#FF8EC4!important;color:#fff!important}
+.sec-pricing .card-gradient .btn-white{background:#fff!important;color:#7C3AED!important}
+.sec-pricing .price-note{color:#059669}
+.sec-pricing > .container > p{color:#9ca3af!important}
 
-/* --- TESTI (porte): dominant #D9F99D (lime) --- */
-.sec-testi{background:#7C3AED!important;color:#fff}
-.sec-testi .sh h2{color:#fff}
-.sec-testi .gt{color:#D9F99D;-webkit-text-fill-color:#D9F99D;background:none}
-.sec-testi .testi{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:rgba(255,255,255,0.1);color:#fff}
-.sec-testi .testi-text{color:#fff;font-style:italic}
-.sec-testi .testi-nm{color:#fff;font-weight:700}
-.sec-testi .testi-role{color:rgba(255,255,255,0.6)}
-.sec-testi .testi-sep{background:rgba(255,255,255,0.1)}
-.sec-testi .testi-q{color:#D9F99D;opacity:0.3}
-.sec-testi .testi-stars{color:#D9F99D}
-.sec-testi .testi-av:nth-child(1){background:#F472B6!important;color:#fff}
-.sec-testi .testi:nth-child(1) .testi-av{background:#F472B6!important;color:#fff}
-.sec-testi .testi:nth-child(2) .testi-av{background:#2DD4BF!important;color:#fff}
-.sec-testi .testi:nth-child(3) .testi-av{background:#06D6A0!important;color:#fff}
+/* --- TESTI (door 4): #FDF2F8 light pink --- */
+.sec-testi{background:#FDF2F8!important;color:#1a1a1a}
+.sec-testi .sh h2{color:#1a1a1a}
+.sec-testi .gt{color:#FF8EC4;-webkit-text-fill-color:#FF8EC4;background:none}
+.sec-testi .testi{background:#fff;border:1px solid rgba(0,0,0,0.06);color:#1a1a1a;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.sec-testi .testi-text{color:#4a4a5a;font-style:italic}
+.sec-testi .testi-nm{color:#1a1a1a;font-weight:700}
+.sec-testi .testi-role{color:#6b7280}
+.sec-testi .testi-sep{background:rgba(0,0,0,0.06)}
+.sec-testi .testi-q{color:#FF8EC4;opacity:0.3}
+.sec-testi .testi-stars{color:#F59E0B}
+.sec-testi .testi-av:nth-child(1){background:#7C3AED!important;color:#fff}
+.sec-testi .testi:nth-child(1) .testi-av{background:#7C3AED!important;color:#fff}
+.sec-testi .testi:nth-child(2) .testi-av{background:#FF8EC4!important;color:#fff}
+.sec-testi .testi:nth-child(3) .testi-av{background:#059669!important;color:#fff}
 
-/* --- FAQ (garage): dominant #2DD4BF (turquoise) --- */
-.sec-faq{background:#3B0764!important;color:#fff}
-.sec-faq .sh h2{color:#fff}
-.sec-faq .gt{color:#2DD4BF;-webkit-text-fill-color:#2DD4BF;background:none}
-.sec-faq .card{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);box-shadow:none;color:#fff}
-.sec-faq .faq-q{color:#fff}
-.sec-faq .faq-q:hover{color:#2DD4BF}
-.sec-faq .faq-a p{color:rgba(255,255,255,0.6)}
-.sec-faq .faq-item{border-color:rgba(255,255,255,0.08)}
-.sec-faq .faq-icon{color:#2DD4BF}
+/* --- FAQ (garage 4): #F8FAFC light slate --- */
+.sec-faq{background:#F8FAFC!important;color:#1a1a1a}
+.sec-faq .sh h2{color:#1a1a1a}
+.sec-faq .gt{color:#7C3AED;-webkit-text-fill-color:#7C3AED;background:none}
+.sec-faq .card{background:#fff;border-color:rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);color:#1a1a1a}
+.sec-faq .faq-q{color:#1a1a1a}
+.sec-faq .faq-q:hover{color:#7C3AED}
+.sec-faq .faq-a p{color:#6b7280}
+.sec-faq .faq-item{border-color:rgba(0,0,0,0.06)}
+.sec-faq .faq-icon{color:#7C3AED}
 
-/* --- TEAM (porte): dominant #93C5FD (bleu clair) --- */
-.sec-team{background:#164E63!important;color:#fff}
-.sec-team .sh h2{color:#93C5FD}
-.sec-team .gt{color:#93C5FD;-webkit-text-fill-color:#93C5FD;background:none}
-.sec-team .card{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:rgba(255,255,255,0.1);color:#fff}
-.sec-team .team-card h3{color:#fff}
-.sec-team .team-card .role{color:#93C5FD}
-.sec-team .team-card p{color:rgba(255,255,255,0.6)}
-.sec-team .team-card:nth-child(1) .team-av{background:linear-gradient(135deg,#F472B6,#FFB4A2)!important;color:#fff}
-.sec-team .team-card:nth-child(2) .team-av{background:linear-gradient(135deg,#2DD4BF,#06D6A0)!important;color:#fff}
-.sec-team .team-quote{color:#93C5FD;font-style:italic}
+/* --- TEAM (door 5): #FFFBEB light amber --- */
+.sec-team{background:#FFFBEB!important;color:#1a1a1a}
+.sec-team .sh h2{color:#1a1a1a}
+.sec-team .gt{color:#EA580C;-webkit-text-fill-color:#EA580C;background:none}
+.sec-team .card{background:#fff;border-color:rgba(0,0,0,0.06);color:#1a1a1a;box-shadow:0 4px 20px rgba(0,0,0,0.04)}
+.sec-team .team-card h3{color:#1a1a1a}
+.sec-team .team-card .role{color:#7C3AED}
+.sec-team .team-card p{color:#6b7280}
+.sec-team .team-card:nth-child(1) .team-av{background:linear-gradient(135deg,#7C3AED,#FF8EC4)!important;color:#fff}
+.sec-team .team-card:nth-child(2) .team-av{background:linear-gradient(135deg,#059669,#2DD4BF)!important;color:#fff}
+.sec-team .team-quote{color:#6b7280;font-style:italic}
 
-/* --- CTA (garage): dominant #D9F99D (lime) --- */
+/* --- CTA (garage 5): #7C3AED violet — impact final --- */
 .sec-cta{background:#7C3AED!important;color:#fff}
 .sec-cta .cta-final{background:transparent!important;border-radius:0;padding:0;box-shadow:none}
-.sec-cta .cta-final h2{color:#D9F99D!important;font-size:clamp(36px,5vw,64px)!important;font-weight:800!important;line-height:1.15!important;margin-bottom:24px!important}
-.sec-cta .cta-final h2 .split-char{color:#D9F99D!important;-webkit-text-fill-color:#D9F99D!important;background:none!important}
+.sec-cta .cta-final h2{color:#fff!important;font-size:clamp(36px,5vw,64px)!important;font-weight:800!important;line-height:1.15!important;margin-bottom:24px!important}
+.sec-cta .cta-final h2 .split-char{color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
 .sec-cta .cta-final>p{color:rgba(255,255,255,0.7);font-size:18px;margin-bottom:36px}
-.sec-cta .cta-final .btn{background:#D9F99D!important;color:#3B0764!important;font-weight:700;padding:16px 36px;border-radius:12px;font-size:17px;box-shadow:none;transition:all 0.3s ease}
+.sec-cta .cta-final .btn{background:#fff!important;color:#7C3AED!important;font-weight:700;padding:16px 36px;border-radius:12px;font-size:17px;box-shadow:none;transition:all 0.3s ease}
 .sec-cta .cta-final .btn:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
 .sec-cta .cta-email{color:rgba(255,255,255,0.5)}
 .sec-cta .cta-email a{color:#D9F99D;font-weight:600}
 
-/* --- FOOTER: #3B0764 violet nuit --- */
-.footer-styled{background:#3B0764!important;color:rgba(255,255,255,0.4);border-top:none}
+/* --- FOOTER: #111827 dark --- */
+.footer-styled{background:#111827!important;color:rgba(255,255,255,0.4);border-top:none}
 .footer-styled .nav-logo{color:#fff}
 .footer-styled .nav-logo .dot{color:#7C3AED}
 .footer-styled .footer-brand p{color:rgba(255,255,255,0.4)}
 .footer-styled .footer-col h4{color:#fff}
 .footer-styled .footer-col a{color:rgba(255,255,255,0.5)}
-.footer-styled .footer-col a:hover{color:#D9F99D}
+.footer-styled .footer-col a:hover{color:#FF8EC4}
 .footer-styled .footer-bottom{color:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.06)}
 .footer-styled .footer-legal a{color:rgba(255,255,255,0.5)}
-.footer-styled .footer-legal a:hover{color:#D9F99D}
+.footer-styled .footer-legal a:hover{color:#FF8EC4}
 .footer-styled .footer-social a{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.4)}
-.footer-styled .footer-social a:nth-child(1):hover{border-color:#F472B6;color:#F472B6;background:rgba(244,114,182,0.1)}
-.footer-styled .footer-social a:nth-child(2):hover{border-color:#2DD4BF;color:#2DD4BF;background:rgba(45,212,191,0.1)}
+.footer-styled .footer-social a:nth-child(1):hover{border-color:#FF8EC4;color:#FF8EC4;background:rgba(255,142,196,0.1)}
+.footer-styled .footer-social a:nth-child(2):hover{border-color:#7C3AED;color:#7C3AED;background:rgba(124,58,237,0.1)}
 
 /* ===== CURSOR ===== */
 .cursor{position:fixed;width:20px;height:20px;border-radius:50%;background:rgba(124,58,237,0.4);pointer-events:none;z-index:99999;transition:width 0.3s ease,height 0.3s ease,opacity 0.3s ease;transform:translate(-50%,-50%);will-change:transform,width,height,opacity;opacity:0.6}
@@ -266,7 +265,7 @@ img,svg{max-width:100%;display:block}
 @media(max-width:768px){.btn{cursor:auto}}
 .btn-primary{background:var(--gradient);color:#fff}
 .btn-primary:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(124,58,237,0.4)}
-.btn-secondary{border:2px solid rgba(255,255,255,0.12);color:var(--text-dark);background:transparent}
+.btn-secondary{border:2px solid rgba(0,0,0,0.12);color:var(--text-dark);background:transparent}
 .btn-secondary:hover{border-color:var(--purple);color:var(--purple)}
 .btn-white{background:#fff;color:var(--purple);font-weight:700;padding:18px 40px}
 .btn-white:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
@@ -312,10 +311,10 @@ img,svg{max-width:100%;display:block}
 .nav-cta{background:#FF8EC4;color:#fff;padding:8px 20px;border-radius:var(--radius-xs);font-size:13px;font-weight:600;transition:all 0.3s}
 .nav-cta:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,142,196,0.3)}
 .nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px}
-.nav-toggle span{display:block;width:22px;height:2px;background:#fff;transition:all 0.3s}
-.nav-mob{display:none;position:fixed;inset:0;background:rgba(59,7,100,0.97);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.nav-toggle span{display:block;width:22px;height:2px;background:#1a1a1a;transition:all 0.3s}
+.nav-mob{display:none;position:fixed;inset:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:28px}
 .nav-mob.open{display:flex}
-.nav-mob a{font-size:24px;font-weight:600;color:#fff}
+.nav-mob a{font-size:24px;font-weight:600;color:#1a1a1a}
 
 /* ===== HERO ===== */
 .hero{padding:120px 0 60px;min-height:100vh;overflow:visible;text-align:center}
@@ -962,11 +961,11 @@ select.q-input{appearance:auto;-webkit-appearance:auto}
 <section class="section-spacing door sec-process" id="process">
     <!-- Animated multi-waves top edge -->
     <div class="door1-waves">
-        <div class="dw dw1"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,100 C60,40 120,10 200,60 C280,110 340,140 440,80 C540,20 620,0 720,50 C820,100 880,130 960,70 C1040,10 1120,0 1200,55 C1280,110 1360,90 1440,70 L1440,200 Z" fill="rgba(217,249,157,0.3)"/></svg></div>
-        <div class="dw dw2"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,120 C80,50 160,20 260,80 C360,140 420,120 500,60 C580,0 680,30 780,90 C880,150 940,110 1020,50 C1100,0 1200,40 1300,80 C1380,110 1420,90 1440,85 L1440,200 Z" fill="rgba(45,212,191,0.4)"/></svg></div>
-        <div class="dw dw3"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,90 C100,30 180,10 280,70 C380,130 460,150 560,90 C660,30 740,0 840,60 C940,120 1020,140 1120,80 C1220,20 1320,10 1440,60 L1440,200 Z" fill="rgba(244,114,182,0.35)"/></svg></div>
-        <div class="dw dw4"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,110 C100,40 200,15 320,75 C440,135 520,100 620,45 C720,0 820,25 940,85 C1060,145 1140,100 1240,55 C1340,10 1400,40 1440,50 L1440,200 Z" fill="rgba(147,197,253,0.45)"/></svg></div>
-        <div class="dw dw5"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,130 C120,60 240,30 380,85 C520,140 620,120 740,65 C860,10 980,40 1100,90 C1220,140 1340,100 1440,80 L1440,200 Z" fill="#7C3AED"/></svg></div>
+        <div class="dw dw1"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,100 C60,40 120,10 200,60 C280,110 340,140 440,80 C540,20 620,0 720,50 C820,100 880,130 960,70 C1040,10 1120,0 1200,55 C1280,110 1360,90 1440,70 L1440,200 Z" fill="rgba(124,58,237,0.06)"/></svg></div>
+        <div class="dw dw2"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,120 C80,50 160,20 260,80 C360,140 420,120 500,60 C580,0 680,30 780,90 C880,150 940,110 1020,50 C1100,0 1200,40 1300,80 C1380,110 1420,90 1440,85 L1440,200 Z" fill="rgba(255,142,196,0.08)"/></svg></div>
+        <div class="dw dw3"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,90 C100,30 180,10 280,70 C380,130 460,150 560,90 C660,30 740,0 840,60 C940,120 1020,140 1120,80 C1220,20 1320,10 1440,60 L1440,200 Z" fill="rgba(124,58,237,0.04)"/></svg></div>
+        <div class="dw dw4"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,110 C100,40 200,15 320,75 C440,135 520,100 620,45 C720,0 820,25 940,85 C1060,145 1140,100 1240,55 C1340,10 1400,40 1440,50 L1440,200 Z" fill="rgba(255,142,196,0.05)"/></svg></div>
+        <div class="dw dw5"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,200 L0,130 C120,60 240,30 380,85 C520,140 620,120 740,65 C860,10 980,40 1100,90 C1220,140 1340,100 1440,80 L1440,200 Z" fill="#F8F7FF"/></svg></div>
     </div>
     <div class="container">
         <div class="sh">
